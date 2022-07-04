@@ -6,7 +6,7 @@
 # ➥ Features:
 <p><a href="https://github.com/woodcraft5https://github.com/woodcraft5"> <img src="https://img.shields.io/badge/%E2%96%BA-Features%3A-brightgreen" width="160""/></a></p>
 
-## ➥ By [WOODcraft](https://github.com/woodcraft5)
+## ➥ [WOODcraft](https://github.com/woodcraft5)
 <p><a href="https://github.com/woodcraft5https://github.com/woodcraft5"> <img src="https://img.shields.io/badge/Repo%20%E2%96%BA-WOODcraft-blue" width="160""/></a></p>
 - ➥ qBittorrent
 - ➥ Select files from Torrent before downloading using qbittorrent
