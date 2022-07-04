@@ -511,10 +511,10 @@ except KeyError:
 try:
     CHANNEL_USERNAME: str = getConfig('CHANNEL_USERNAME').replace("@", "")
     if len(CHANNEL_USERNAME) == 0:
-        CHANNEL_USERNAME = 'Z_Mirror'
+        CHANNEL_USERNAME = 'woodcraft_repo'
 except KeyError:
     logging.warning('CHANNEL_USERNAME not provided')
-    CHANNEL_USERNAME = '@Z_Mirror'
+    CHANNEL_USERNAME = '@woodcraft_repo'
 try:
     TOKEN_PICKLE_URL = getConfig('TOKEN_PICKLE_URL')
     if len(TOKEN_PICKLE_URL) == 0:
