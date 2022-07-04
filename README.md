@@ -1,6 +1,6 @@
 ➥ This is a Telegram Bot written in Python for mirroring files on the Internet to your Google Drive or Telegram. Based on [python-aria-mirror-bot](https://github.com/lzzy12/python-aria-mirror-bot)
 
-![WOODcraft_Repo](https://user-images.githubusercontent.com/72670667/177207685-1298bc95-799a-486e-a10a-5695cc54f1d8.jpg)
+![WOODcraft_Repo](https://user-images.githubusercontent.com/72670667/177208517-73cec68a-56aa-454e-8ace-c028f1910297.jpg)
 
 
 # ➥ Features:
