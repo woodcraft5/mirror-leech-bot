@@ -6,7 +6,6 @@ from time import time
 from sys import executable
 from telegram import InlineKeyboardMarkup
 from telegram.ext import CommandHandler
-
 from bot import bot, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, LOGGER, Interval, INCOMPLETE_TASK_NOTIFIER, DB_URI, app, main_loop
 from .helper.ext_utils.fs_utils import start_cleanup, clean_all, exit_clean_up
 from .helper.ext_utils.telegraph_helper import telegraph
@@ -16,9 +15,7 @@ from .helper.telegram_helper.bot_commands import BotCommands
 from .helper.telegram_helper.message_utils import sendMessage, sendMarkup, editMessage, sendLogFile
 from .helper.telegram_helper.filters import CustomFilters
 from .helper.telegram_helper.button_build import ButtonMaker
-
 from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, delete, count, leech_settings, search, rss
-
 
 def stats(update, context):
     if ospath.exists('.git'):
@@ -45,25 +42,24 @@ def stats(update, context):
     mem_a = get_readable_file_size(memory.available)
     mem_u = get_readable_file_size(memory.used)
 
-    stats = f'<b>🌼 Commit Date ➤</b> {last_commit}\n'\
-            f'<b>🌼 Bot Uptime ➤</b> {currentTime}\n'\
-            f'<b>🌼 OS Uptime ➤</b> {osUptime}\n'\
-            f'<b>🌼 Total Disk Space ➤</b> {total}\n'\
-            f'<b>🌼 Used ➤</b> {used} | <b>Free:</b> {free}\n'\
-            f'<b>🌼 Upload ➤</b> {sent}\n'\
-            f'<b>🌼 Download ➤</b> {recv}\n'\
-            f'<b>🌼 CPU ➤</b> {cpuUsage}%\n'\
-            f'<b>🌼 RAM ➤</b> {mem_p}%\n'\
-            f'<b>🌼 DISK ➤</b> {disk}%\n'\
-            f'<b>🌼 Physical Cores ➤</b> {p_core}\n'\
-            f'<b>🌼 Total Cores ➤</b> {t_core}\n'\
-            f'<b>🌼 SWAP ➤</b> {swap_t} | <b>Used:</b> {swap_p}%\n'\
-            f'<b>🌼 Memory Total ➤</b> {mem_t}\n'\
-            f'<b>🌼 Memory Free ➤</b> {mem_a}\n'\
-            f'<b>🌼 Memory Used ➤</b> {mem_u}\n'
+    stats = f'<b>★ Commit Date ➤</b> {last_commit}\n'\
+            f'<b>★ Bot Uptime ➤</b> {currentTime}\n'\
+            f'<b>★ OS Uptime ➤</b> {osUptime}\n'\
+            f'<b>★ Total Disk Space ➤</b> {total}\n'\
+            f'<b>★ Used ➤</b> {used} | <b>★ Free:</b> {free}\n'\
+            f'<b>★ Upload ➤</b> {sent}\n'\
+            f'<b>★ Download ➤</b> {recv}\n'\
+            f'<b>★ CPU ➤</b> {cpuUsage}%\n'\
+            f'<b>★ RAM ➤</b> {mem_p}%\n'\
+            f'<b>★ DISK ➤</b> {disk}%\n'\
+            f'<b>★ Physical Cores ➤</b> {p_core}\n'\
+            f'<b>★ Total Cores ➤</b> {t_core}\n'\
+            f'<b>★ SWAP ➤</b> {swap_t} | <b>★ Used:</b> {swap_p}%\n'\
+            f'<b>★ Memory Total ➤</b> {mem_t}\n'\
+            f'<b>★ Memory Free ➤</b> {mem_a}\n'\
+            f'<b>★ Memory Used ➤</b> {mem_u}\n'
 
     sendMessage(stats, context.bot, update.message)
-
 
 def start(update, context):
     buttons = ButtonMaker()
@@ -86,7 +82,7 @@ Type /{BotCommands.HelpCommand} to get a list of available commands
 def restart(update, context):
     restart_message = sendMessage("Restarting...", context.bot, update.message)
     if Interval:
-        Interval[0].cancel()
+        Interval.clear()
     clean_all()
     srun(["pkill", "-f", "gunicorn|aria2c|qbittorrent-nox"])
     srun(["python3", "update.py"])
@@ -95,17 +91,14 @@ def restart(update, context):
         f.write(f"{restart_message.chat.id}\n{restart_message.message_id}\n")
     osexecl(executable, executable, "-m", "bot")
 
-
 def ping(update, context):
     start_time = int(round(time() * 1000))
     reply = sendMessage("Starting Ping", context.bot, update.message)
     end_time = int(round(time() * 1000))
     editMessage(f'{end_time - start_time} ms', reply)
 
-
 def log(update, context):
     sendLogFile(context.bot, update.message)
-
 
 help_string_telegraph = f'''<br>
 <b>/{BotCommands.HelpCommand}</b>: To get this message
@@ -116,7 +109,7 @@ help_string_telegraph = f'''<br>
 <br><br>
 <b>/{BotCommands.UnzipMirrorCommand}</b> [download_url][magnet_link]: Start mirroring and upload the file/folder extracted from any archive extension
 <br><br>
-<b>/{BotCommands.QbMirrorCommand}</b> [magnet_link][torrent_file][torrent_file_url]: Start Mirroring using qBittorrent, Use <b>/{BotCommands.QbMirrorCommand} s</b> to select files before downloading
+<b>/{BotCommands.QbMirrorCommand}</b> [magnet_link][torrent_file][torrent_file_url]: Start Mirroring using qBittorrent, Use <b>/{BotCommands.QbMirrorCommand} s</b> to select files before downloading and use <b>/{BotCommands.QbMirrorCommand} d</b> to seed specific torrent
 <br><br>
 <b>/{BotCommands.QbZipMirrorCommand}</b> [magnet_link][torrent_file][torrent_file_url]: Start mirroring using qBittorrent and upload the file/folder compressed with zip extension
 <br><br>
@@ -301,7 +294,7 @@ def main():
     dispatcher.add_handler(stats_handler)
     dispatcher.add_handler(log_handler)
     updater.start_polling(drop_pending_updates=IGNORE_PENDING_REQUESTS)
-    LOGGER.info("Bot Started !")
+    LOGGER.info("Congratulations, Bot Started Sucessfully !")
     signal(SIGINT, exit_clean_up)
 
 app.start()
