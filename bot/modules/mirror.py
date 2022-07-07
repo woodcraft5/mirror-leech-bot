@@ -203,23 +203,23 @@ class MirrorListener:
         reply_to = self.message.reply_to_message
         if not self.isPrivate and INCOMPLETE_TASK_NOTIFIER and DB_URI is not None:
             DbManger().rm_complete_task(self.message.link)
-        msg = f"<b>File Name: </b><code>{escape(name)}</code>\n<b>File Size: </b>{size}"
+        msg = f"<b>➦ File Name: </b><code>{escape(name)}</code>\n<b>➦ File Size: </b>{size}"
         if self.isLeech:
             if BOT_PM:	
                 bot_d = bot.get_me()	
                 b_uname = bot_d.username	
                 botstart = f"http://t.me/{b_uname}"	
                 buttons.buildbutton("View file in PM", f"{botstart}")
-            msg += f'\n<b>Total Files: </b>{folders}'
+            msg += f'\n<b>➦ Total Files: </b>{folders}'
             if typ != 0:
-                msg += f'\n<b>Corrupted Files: </b>{typ}'
-            msg += f'\n\n<b>Hey </b>{self.tag} <b>Your Job is Done</b>'
-            msg += f'\n<b>It Tooks:</b> {get_readable_time(time() - self.message.date.timestamp())}'
-            msg += f'\n\n<b>Thanks For using @Z_Mirror</b>'
+                msg += f'\n<b>➦ Corrupted Files: </b>{typ}'
+            msg += f'\n\n<b>➦ Hey </b>{self.tag} <b>➦ Your file Successful</b>'
+            msg += f'\n<b>➦ It Tooks:</b> {get_readable_time(time() - self.message.date.timestamp())}'
+            msg += f'\n\n<b>🍁 YOU using @woodcraft_repo</b>'
             if not files:
                 sendMessage(msg, self.bot, self.message)
             else:
-                fmsg = '\n<b>Your Files Are:</b>'
+                fmsg = '\n<b>➦ This is your file:</b>'
                 for index, (link, name) in enumerate(files.items(), start=1):
                     fmsg += f"{index}. <a href='{link}'>{name}</a>\n"
                     if len(fmsg.encode() + msg.encode()) > 4000:
@@ -229,16 +229,16 @@ class MirrorListener:
                 if fmsg != '':
                     sendMessage(msg + fmsg, self.bot, self.message)
         else:
-            msg += f'\n<b>Type: </b>{typ}'
+            msg += f'\n<b>➦ Type: </b>{typ}'
             if ospath.isdir(f'{DOWNLOAD_DIR}{self.uid}/{name}'):
-                msg += f'\n<b>SubFolders: </b>{folders}'
-                msg += f'\n<b>Files: </b>{files}'
-            msg += f'\n\n<b>Hey </b>{self.tag} <b>Your Job is Done</b>'
-            msg += f'\n<b>It Tooks:</b> {get_readable_time(time() - self.message.date.timestamp())}'
-            msg += f'\n\n<b>Thanks For using @Z_Mirror</b>'
+                msg += f'\n<b>➦ SubFolders: </b>{folders}'
+                msg += f'\n<b>➦ Files: </b>{files}'
+            msg += f'\n\n<b>➦ Hey </b>{self.tag} <b>➦ Your file Successful</b>'
+            msg += f'\n<b>➦ It Tooks:</b> {get_readable_time(time() - self.message.date.timestamp())}'
+            msg += f'\n\n<b>🍁 YOU using @woodcraft_repo</b>'
             buttons = ButtonMaker()
             link = short_url(link)
-            buttons.buildbutton("☁️ Drive Link", link)
+            buttons.buildbutton("🌼 Drive Link 🌼", link)
             LOGGER.info(f'Done Uploading {name}')
             if INDEX_URL is not None:
                 url_path = rutils.quote(f'{name}')
@@ -246,14 +246,14 @@ class MirrorListener:
                 if ospath.isdir(f'{DOWNLOAD_DIR}/{self.uid}/{name}'):
                     share_url += '/'
                     share_url = short_url(share_url)
-                    buttons.buildbutton("⚡ Index Link", share_url)
+                    buttons.buildbutton("🍁 Index Link 🍁", share_url)
                 else:
                     share_url = short_url(share_url)
-                    buttons.buildbutton("⚡ Index Link", share_url)
+                    buttons.buildbutton("🍁 Index Link 🍁", share_url)
                     if VIEW_LINK:
                         share_urls = f'{INDEX_URL}/{url_path}?a=view'
                         share_urls = short_url(share_urls)
-                        buttons.buildbutton("🌐 View Link", share_urls)
+                        buttons.buildbutton("🌼 View Link 🌼", share_urls)
             if BUTTON_FOUR_NAME is not None and BUTTON_FOUR_URL is not None:
                 buttons.buildbutton(f"{BUTTON_FOUR_NAME}", f"{BUTTON_FOUR_URL}")
             if BUTTON_FIVE_NAME is not None and BUTTON_FIVE_URL is not None:
@@ -315,7 +315,7 @@ class MirrorListener:
             DbManger().rm_complete_task(self.message.link)
 
 def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=False, pswd=None, multi=0, qbsd=False):
-    
+
     buttons = ButtonMaker()
 
     if FSUB:
@@ -323,9 +323,9 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
             uname = message.from_user.mention_html(message.from_user.first_name)
             user = bot.get_chat_member(FSUB_CHANNEL_ID, message.from_user.id)
             if user.status not in ['member', 'creator', 'administrator']:
-                buttons.buildbutton("Z Mirror", f"https://t.me/{CHANNEL_USERNAME}")
+                buttons.buildbutton("Woodcraft Repo", f"https://t.me/{CHANNEL_USERNAME}")
                 reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
-                return sendMarkup(f"<b>Dear {uname}️,\nYou haven't joined our Updates Channel yet.\nJoin and Use Me Without any Restrictions.</b>", bot, message, reply_markup)
+                return sendMarkup(f"<b>➦ Dear {uname}️,\nYou haven't joined our Updates Channel yet.\nJoin and Use Me Without any Restrictions.</b>", bot, message, reply_markup)
         except Exception as e:
             LOGGER.info(str(e))
 
@@ -340,7 +340,7 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
             b_uname = bot_d.username
             uname = f'<a href="tg://user?id={message.from_user.id}">{message.from_user.first_name}</a>'
             botstart = f"http://t.me/{b_uname}"
-            buttons.buildbutton("Click Here to Start Me", f"{botstart}")
+            buttons.buildbutton("➦Click Here to Start Me", f"{botstart}")
             startwarn = f"Dear {uname},\n\n<b>I found that you haven't started me in PM (Private Chat) yet.</b>\n\n" \
                         f"From now on i will give link and leeched files in PM and log channel only"
             message = sendMarkup(startwarn, bot, message, InlineKeyboardMarkup(buttons.build_menu(2)))
