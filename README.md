@@ -579,6 +579,6 @@ P.s - Credit goes to all original developers of python, pyrogram, linux, heroku,
   #### Main Credit ➥ [★ ★ ★ Anas Sir ★ ★ ★](https://github.com/anasty17/mirror-leech-telegram-bot)
   <p><a href="https://github.com/anasty17/mirror-leech-telegram-bot"> <img src=https://img.shields.io/badge/%E2%96%BA-Anas--sir-green"" width="160""/></a></p>
   
-  ### Credit ➥ Code Modified actor = [Z Mirror](https://github.com/Dawn-India/Z-Mirror)<p><a href="https://github.com/Dawn-India/Z-Mirror"> <img src=https://img.shields.io/badge/%E2%96%BA-Z%20Mirror-green"" width="140""/></a></p>
+  ### Credit ➥ Code Modified actor = [Z Mirror](https://github.com/Dawn-India/Z-Mirror)
   
 <p><a href="https://github.com/woodcraft5/mirror-leech-bot"> <img src=https://img.shields.io/badge/%E2%96%B7%20%E2%96%B7%20%E2%96%B7%20%E2%96%B7%20-WOODcraft%20%E2%96%BA-brightgreen"" width="190""/></a></p>
