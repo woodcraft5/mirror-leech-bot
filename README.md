@@ -39,7 +39,8 @@
 - ➥ Many bugs have been fixed
 
 - ➥ Leech-Log, Mirror-Log, Bot-PM
-- ➥ UNIFIED LOGIN (AppDrive, DriveApp, GDFlix, DriveBit, DriveLinks, DriveSharer, DriveAce, DrivePro, Sharer) supported links  
+- ➥ Force Sub to channel
+- ➥ AppDrive & GdToT Support
 - ➥ Mirror direct download links, Torrent, and Telegram files to Google Drive
 - ➥ Mirror Mega.nz links to Google Drive
 - ➥ Copy files from someone's Drive to your Drive (Using Autorclone)
@@ -140,11 +141,16 @@ Fill up rest of the fields. Meaning of each field is discussed below:
 - `UPSTREAM_REPO`: Your github repository link, if your repo is private add `https://username:{githubtoken}@github.com/{username}/{reponame}` format. Get token from [Github settings](https://github.com/settings/tokens). So you can update your bot from filled repository on each restart. **NOTE**: Any change in docker or requirements you need to deploy/build again with updated repo to take effect. DON'T delete .gitignore file. For more information read [THIS](https://github.com/woodcraft5/mirror-leech-bot/tree/master#upstream-repo-recommended).
 - `UPSTREAM_BRANCH`: Upstream branch for update. Default is `master`.
   
-### ➥ Mirror
-- `MIRROR_LOGS`: Group/Channel ID where Mirror-logs are posted.( **Note** Don't add "" )
-### ➥ Leech
+### Force SUB
+- `FSUB`: Force BOT users to subscribe a specific channel in order to use the bot. Set it `True` if you want to use FSUB. Default is `False`.
+- `CHANNEL_USERNAME`: Add the channel username for force sub. (Example: If the channel link is `https://t.me/woodcraft_repo` then write `woodcraft_repo`)
+- `FSUB_CHANNEL_ID`: Add channel id for `FSUB`. (Ex: `--100910022330022`). ( **Note** Don't add "" )
+
+### Mirror
+- `MIRROR_LOGS`: Group/Channel ID where Mirror-logs are posted. (Ex: `-1006833907755`). ( **Note** Don't add "" )
+### Leech
 - `BOT_PM`: To send Leeched files and mirrored links in PM, set it `True` (`False` by Default)
-- `LEECH_LOG`: Group/Channel ID where Leech-logs are posted.( **Note** Don't add "" )
+- `LEECH_LOG`: Group/Channel ID where Leech-logs are posted. (Ex: `-100910022330022`). ( **Note** Don't add "" )
 - `TG_SPLIT_SIZE`: Size of split in bytes. Default is `2GB`.
 - `AS_DOCUMENT`: Default type of Telegram file upload. Default is `False` mean as media. `Bool`
 - `EQUAL_SPLITS`: Split files larger than **TG_SPLIT_SIZE** into equal parts size (Not working with zip cmd). Default is `False`. `Bool`
@@ -192,11 +198,6 @@ Fill up rest of the fields. Meaning of each field is discussed below:
 
 <p><a href="https://github.com/woodcraft5/mirror-leech-bot"> <img src="https://img.shields.io/badge/%E2%96%BA-GDTOT-brightgreen" width="160""/></a></p>
 - `CRYPT`: Cookie for gdtot google drive link generator. Follow these [steps](https://github.com/woodcraft5/mirror-leech-bot/tree/master#gdtot-cookies).
-
-### UNIFIED LOGIN ➥ (AppDrive, DriveApp, GDFlix, DriveBit, DriveLinks, DriveSharer, DriveAce, DrivePro, Sharer)
-
-- UNIFIED_EMAIL = Fill your Email address. (Note: Use same email in unified login sites.)
-UNIFIED_PASS = Password for login. (Same password for all sites.)
 
 #### ➥ Token use this chrome extension: Get cookies.txt & Cookie-Editor
 
@@ -537,7 +538,12 @@ Where host is the name of extractor (eg. instagram, Twitch). Multiple accounts o
 -----
 
 ## ➥ Gdtot Cookies
-To Clone or Leech gdtot link follow these steps:
+  
+### AppDrive
+- ➥ APPDRIVE_EMAIL` = Fill your AppDrive Email address.
+- ➥ APPDRIVE_PASS` = AppDrive Password for login.
+  
+     To Clone or Leech gdtot link follow these steps:
 1.➥ Login/Register to [gdtot](https://new.gdtot.top).
 2.➥ Copy this script and paste it in browser address bar.
    - **Note**: After pasting it check at the beginning of the script in broswer address bar if `javascript:` exists or not, if not so write it as shown below.
@@ -572,6 +578,8 @@ P.s - Credit goes to all original developers of python, pyrogram, linux, heroku,
 
   #### Main Credit ➥ [★ ★ ★ Anas Sir ★ ★ ★](https://github.com/anasty17/mirror-leech-telegram-bot)
   <p><a href="https://github.com/anasty17/mirror-leech-telegram-bot"> <img src=https://img.shields.io/badge/%E2%96%BA-Anas--sir-green"" width="160""/></a></p>
-
-
+  
+  ### Credit ➥ Code Modified actor = [Z Mirror](https://github.com/Dawn-India/Z-Mirror)
+  <p><a href="https://github.com/Dawn-India"> <img src=https://img.shields.io/badge/%E2%96%BA-Z%20Mirror-green"" width="160""/></a></p>
+  
 <p><a href="https://github.com/woodcraft5/mirror-leech-bot"> <img src=https://img.shields.io/badge/%E2%96%B7%20%E2%96%B7%20%E2%96%B7%20%E2%96%B7%20-WOODcraft%20%E2%96%BA-brightgreen"" width="190""/></a></p>
