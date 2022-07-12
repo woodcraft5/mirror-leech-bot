@@ -25,7 +25,6 @@ URL_REGEX = r"(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+"
 COUNT = 0
 PAGE_NO = 1
 
-
 class MirrorStatus:
     STATUS_UPLOADING = "Uploading...📤"
     STATUS_DOWNLOADING = "Downloading...📥"
@@ -38,21 +37,21 @@ class MirrorStatus:
     STATUS_SPLITTING = "Splitting...✂️"
     STATUS_CHECKING = "CheckingUp...📝"
     STATUS_SEEDING = "Seeding...🌧"
-    
+
 class EngineStatus:
     STATUS_ARIA = "Aria2c v1.35.0"
     STATUS_GD = "Google Api v2.51.0"
     STATUS_MEGA = "MegaSDK v3.12.0"
-    STATUS_QB = "qBittorrent v4.3.9"
+    STATUS_QB = "qBittorrent v4.4.2"
     STATUS_TG = "Pyrogram v2.0.27"
     STATUS_YT = "YT-dlp v22.5.18"
-    STATUS_EXT = "Extract | pExtract"
+    STATUS_EXT = "pExtract"
     STATUS_SPLIT = "FFmpeg v2.9.1"
     STATUS_ZIP = "p7zip v16.02"
 
 PROGRESS_MAX_SIZE = 100 // 9
-PROGRESS_INCOMPLETE = ['➨', '➨', '➨', '➨', '➨', '➨', '➨']
-    
+PROGRESS_INCOMPLETE = ['➽', '➽', '➽', '➽', '➽', '➽', '➽']
+
 SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
 
 
@@ -127,11 +126,11 @@ def get_progress_bar_string(status):
     p = min(max(p, 0), 100)
     cFull = p // 8
     cPart = p % 8 - 1
-    p_str = '➨' * cFull
+    p_str = '➽' * cFull
     if cPart >= 0:
         p_str += PROGRESS_INCOMPLETE[cPart]
     p_str += '➪' * (PROGRESS_MAX_SIZE - cFull)
-    p_str = f"「{p_str}」"
+    p_str = f"⠧{p_str}⠹"
     return p_str
 
 def get_readable_message():
@@ -214,11 +213,11 @@ def get_readable_message():
         sbutton = InlineKeyboardMarkup(buttons.build_menu(1))
         
         if STATUS_LIMIT is not None and tasks > STATUS_LIMIT:
-            msg += f"<b>Tasks:</b> {tasks}\n"
+            msg += f"\n<b>➦ Total Tasks:</b> {tasks}\n"
             buttons = ButtonMaker()
-            buttons.sbutton("Prev", "status pre")
+            buttons.sbutton("➦ Prev", "status pre")
             buttons.sbutton(f"{PAGE_NO}/{pages}", str(THREE))
-            buttons.sbutton("Next", "status nex")
+            buttons.sbutton("➦ Next", "status nex")
             button = InlineKeyboardMarkup(buttons.build_menu(3))
             return msg + bmsg, button
         return msg + bmsg, sbutton
