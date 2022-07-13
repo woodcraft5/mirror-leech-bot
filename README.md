@@ -18,6 +18,8 @@
 - ➥ View Link button, extra button to open file index link in broswer instead of direct download
 - ➥ Status Pages for unlimited tasks
 - ➥ Clone status
+- ➥ Heroku Dyno Status
+- ➥ Leech Size Limit
 - ➥ Search in multiple Drive folder/TeamDrive
 - ➥ Recursive Search (only with `root` or TeamDrive ID, folder ids will be listed with non-recursive method)
 - ➥ Multi-TD list by token.pickle if exists
@@ -148,6 +150,10 @@ Fill up rest of the fields. Meaning of each field is discussed below:
 
 ### Mirror
 - `MIRROR_LOGS`: Group/Channel ID where Mirror-logs are posted. (Ex: `-1006833907755`). ( **Note** Don't add "" )
+
+- `LEECH_LIMIT`: To limit the size of Leech download. Don't add unit. Default unit is `GB`.
+- `STORAGE_THRESHOLD`: To leave specific storage free and any download will lead to leave free storage less than this value will be cancelled. Don't add unit. Default unit is `GB`.
+
 ### Leech
 - `BOT_PM`: To send Leeched files and mirrored links in PM, set it `True` (`False` by Default)
 - `LEECH_LOG`: Group/Channel ID where Leech-logs are posted. (Ex: `-100910022330022`). ( **Note** Don't add "" )
@@ -403,6 +409,10 @@ help - All cmds with description
 - `UPSTREAM_BRANCH` don't ever fill heroku here.
 
 ------
+
+### HEROKU 
+- `HEROKU_API_KEY`: Heroku.com API key to view Dyno status.
+- `HEROKU_APP_NAME`: Heroku.com App Name to view Dyno status.
 
 ### ➥ Using Service Accounts for uploading to avoid user rate limit
 <p><a href="https://github.com/woodcraft5/mirror-leech-bot"> <img src="https://img.shields.io/badge/%E2%96%BA-Using%20Service%20Accounts%20for%20uploading%20to%20avoid%20user%20rate%20limit-brightgreen" width="190""/></a></p>
