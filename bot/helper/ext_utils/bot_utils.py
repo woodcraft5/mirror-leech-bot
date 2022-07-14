@@ -206,11 +206,11 @@ def get_readable_message():
                 elif 'MB/s' in spd:
                     upspeed_bytes += float(spd.split('M')[0]) * 1048576
         bmsg += f"\n<b>➦ DN:</b> {get_readable_file_size(dlspeed_bytes)}/s<b> | ➦ UP:</b> {get_readable_file_size(upspeed_bytes)}/s"
-        
+
         buttons = ButtonMaker()
         buttons.sbutton("Statistics", str(THREE))
         sbutton = InlineKeyboardMarkup(buttons.build_menu(1))
-        
+
         if STATUS_LIMIT is not None and tasks > STATUS_LIMIT:
             msg += f"\n<b>★Tasks:</b> {tasks}\n"
             buttons = ButtonMaker()
@@ -349,7 +349,7 @@ def bot_sys_stats():
                 num_extract += 1
        if stats.status() == MirrorStatus.STATUS_SPLITTING:
                 num_split += 1
-    stats = f"Bot Statistics"
+    stats = "Bot Statistics"
     stats += f"""
 
 ★Bot Uptime: {currentTime}
@@ -361,5 +361,5 @@ Made with ➥ 𝐁𝐲 - 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭
 """
     return stats
 dispatcher.add_handler(
-    CallbackQueryHandler(pop_up_stats, pattern="^" + str(THREE) + "$")
+    CallbackQueryHandler(pop_up_stats, pattern=f"^{str(THREE)}$")
 )
