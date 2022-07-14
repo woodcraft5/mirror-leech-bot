@@ -42,37 +42,37 @@ def stats(update, context):
     mem_a = get_readable_file_size(memory.available)
     mem_u = get_readable_file_size(memory.used)
 
-    stats = f'<b>Commit Date:</b> {last_commit}\n'\
-            f'<b>Bot Uptime:</b> {currentTime}\n'\
-            f'<b>OS Uptime:</b> {osUptime}\n'\
-            f'<b>Total Disk Space:</b> {total}\n'\
-            f'<b>Used:</b> {used} | <b>Free:</b> {free}\n'\
-            f'<b>Upload:</b> {sent}\n'\
-            f'<b>Download:</b> {recv}\n'\
-            f'<b>CPU:</b> {cpuUsage}%\n'\
-            f'<b>RAM:</b> {mem_p}%\n'\
-            f'<b>DISK:</b> {disk}%\n'\
-            f'<b>Physical Cores:</b> {p_core}\n'\
-            f'<b>Total Cores:</b> {t_core}\n'\
-            f'<b>SWAP:</b> {swap_t} | <b>Used:</b> {swap_p}%\n'\
-            f'<b>Memory Total:</b> {mem_t}\n'\
-            f'<b>Memory Free:</b> {mem_a}\n'\
-            f'<b>Memory Used:</b> {mem_u}\n'
+    stats = f'<b>★Commit Date:</b> {last_commit}\n'\
+            f'<b>★Bot Uptime:</b> {currentTime}\n'\
+            f'<b>★OS Uptime:</b> {osUptime}\n'\
+            f'<b>★Total Disk Space:</b> {total}\n'\
+            f'<b>★Used:</b> {used} | <b>★Free:</b> {free}\n'\
+            f'<b>★Upload:</b> {sent}\n'\
+            f'<b>★Download:</b> {recv}\n'\
+            f'<b>★CPU:</b> {cpuUsage}%\n'\
+            f'<b>★RAM:</b> {mem_p}%\n'\
+            f'<b>★DISK:</b> {disk}%\n'\
+            f'<b>★Physical Cores:</b> {p_core}\n'\
+            f'<b>★Total Cores:</b> {t_core}\n'\
+            f'<b>★SWAP:</b> {swap_t} | <b>★Used:</b> {swap_p}%\n'\
+            f'<b>★Memory Total:</b> {mem_t}\n'\
+            f'<b>★Memory Free:</b> {mem_a}\n'\
+            f'<b>★Memory Used:</b> {mem_u}\n'
 
     sendMessage(stats, context.bot, update.message)
 
 def start(update, context):
     buttons = ButtonMaker()
 
-    buttons.buildbutton("Report Group", "https://t.me/Mltb_chat_unofficial")
-    buttons.buildbutton("Repo", "https://github.com/Dawn-India/Z-Mirror")
-    buttons.buildbutton("Mirror Group", "https://t.me/z_mirror")
-    buttons.buildbutton("Owner", "https://t.me/dawn_in")
+    buttons.buildbutton("★Repo", "https://github.com/woodcraft5/mirror-leech-bot")
+    buttons.buildbutton("★Report Group", "https://t.me/+mmlX62hc9M43YjI1")
+    buttons.buildbutton("★Channel", "https://t.me/woodcraft_repo")
+    buttons.buildbutton("★Owner", "https://t.me/woodcraft5")
 
     reply_markup = InlineKeyboardMarkup(buttons.build_menu(2))
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
         start_string = f'''
-Welcome | Z Mirror service is ready for you
+Welcome | WOODcraft service is ready for you
 Type /{BotCommands.HelpCommand} to get a list of available commands
 '''
         sendMarkup(start_string, context.bot, update.message, reply_markup)
@@ -169,7 +169,7 @@ help_string_telegraph = f'''<br>
 '''
 
 help = telegraph.create_page(
-        title='Z-Mirror-Bot Help',
+        title='WOODcraft Torrent Search',
         content=help_string_telegraph,
     )["path"]
 
@@ -239,8 +239,7 @@ def main():
     # bot.set_my_commands(botcmds)
     start_cleanup()
     if INCOMPLETE_TASK_NOTIFIER and DB_URI is not None:
-        notifier_dict = DbManger().get_incomplete_tasks()
-        if notifier_dict:
+        if notifier_dict := DbManger().get_incomplete_tasks():
             for cid, data in notifier_dict.items():
                 if ospath.isfile(".restartmsg"):
                     with open(".restartmsg") as f:
