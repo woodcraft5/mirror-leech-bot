@@ -50,7 +50,7 @@ class EngineStatus:
     STATUS_ZIP = "p7zip v16.02"
 
 PROGRESS_MAX_SIZE = 100 // 9
-PROGRESS_INCOMPLETE = ['➨', '➨', '➨', '➨', '➨', '➨', '➨']
+PROGRESS_INCOMPLETE = ['➽', '➽', '➽', '➽', '➽', '➽', '➽']
     
 SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
 
@@ -125,7 +125,7 @@ def get_progress_bar_string(status):
     p = min(max(p, 0), 100)
     cFull = p // 8
     cPart = p % 8 - 1
-    p_str = '➨' * cFull
+    p_str = '➽' * cFull
     if cPart >= 0:
         p_str += PROGRESS_INCOMPLETE[cPart]
     p_str += '➪' * (PROGRESS_MAX_SIZE - cFull)
@@ -188,7 +188,7 @@ def get_readable_message():
                 msg += "\n"
             if STATUS_LIMIT is not None and index == STATUS_LIMIT:
                 break
-        bmsg = f"\n<b>✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧</b>"
+        bmsg = f"\n<b>★★★★★★★★★★★★★★★★★★★★★★★</b>"
         bmsg += f"\n<b>★Disk:</b> {get_readable_file_size(disk_usage(DOWNLOAD_DIR).free)}"
         bmsg += f"<b> | ★UPTM:</b> {get_readable_time(time() - botStartTime)}"
         dlspeed_bytes = 0
@@ -206,17 +206,17 @@ def get_readable_message():
                 elif 'MB/s' in spd:
                     upspeed_bytes += float(spd.split('M')[0]) * 1048576
         bmsg += f"\n<b>➦ DN:</b> {get_readable_file_size(dlspeed_bytes)}/s<b> | ➦ UP:</b> {get_readable_file_size(upspeed_bytes)}/s"
-        
+
         buttons = ButtonMaker()
         buttons.sbutton("Statistics", str(THREE))
         sbutton = InlineKeyboardMarkup(buttons.build_menu(1))
-        
+
         if STATUS_LIMIT is not None and tasks > STATUS_LIMIT:
-            msg += f"\n<b>★Tasks:</b> {tasks}\n"
+            msg += f"\n<b>➦ Tasks:</b> {tasks}\n"
             buttons = ButtonMaker()
-            buttons.sbutton("Prev", "status pre")
+            buttons.sbutton("➦ Prev", "status pre")
             buttons.sbutton(f"{PAGE_NO}/{pages}", str(THREE))
-            buttons.sbutton("Next", "status nex")
+            buttons.sbutton("➦ Next", "status nex")
             button = InlineKeyboardMarkup(buttons.build_menu(3))
             return msg + bmsg, button
         return msg + bmsg, sbutton
@@ -349,7 +349,7 @@ def bot_sys_stats():
                 num_extract += 1
        if stats.status() == MirrorStatus.STATUS_SPLITTING:
                 num_split += 1
-    stats = f"Bot Statistics"
+    stats = "Bot Statistics"
     stats += f"""
 
 ★Bot Uptime: {currentTime}
@@ -357,9 +357,10 @@ def bot_sys_stats():
 ★CPU: {cpu}% | ★RAM: {mem}%
 ★Disk: {total} | ★Free: {free}
 ★Used: [{disk}%] ★is {used}
-Made with ➥ 𝐁𝐲 - 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭
+
+★Powered By ➥ 𝐁𝐲 - 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭
 """
     return stats
 dispatcher.add_handler(
-    CallbackQueryHandler(pop_up_stats, pattern="^" + str(THREE) + "$")
+    CallbackQueryHandler(pop_up_stats, pattern=f"^{str(THREE)}$")
 )
