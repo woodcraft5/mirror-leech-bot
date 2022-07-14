@@ -81,7 +81,7 @@ class MirrorListener:
             try:
                 with download_dict_lock:
                     download_dict[self.uid] = ZipStatus(name, m_path, size, self.message)
-                path = m_path + ".zip"
+                path = f"{m_path}.zip"
                 LOGGER.info(f'Zip: orig_path: {m_path}, zip_path: {path}')
                 if self.pswd is not None:
                     if self.isLeech and int(size) > TG_SPLIT_SIZE:
@@ -215,7 +215,7 @@ class MirrorListener:
                 msg += f'\n<b>➦ Corrupted Files: </b>{typ}'
             msg += f'\n\n<b>➦ Hey </b>{self.tag} <b>➦ Your file Successful</b>'
             msg += f'\n<b>➦ It Tooks:</b> {get_readable_time(time() - self.message.date.timestamp())}'
-            msg += f'\n\n<b>🍁 YOU using @woodcraft_repo</b>'
+            msg += f'\n\n<b>🍁 YOU using  @woodcraft_repo</b>'
             if not files:
                 sendMessage(msg, self.bot, self.message)
             else:
