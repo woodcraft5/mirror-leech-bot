@@ -6,69 +6,50 @@ from time import time
 from sys import executable
 from telegram import InlineKeyboardMarkup
 from telegram.ext import CommandHandler
-from bot import bot, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, LOGGER, Interval, INCOMPLETE_TASK_NOTIFIER, DB_URI, app, main_loop
+from bot import bot, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, LOGGER, Interval, INCOMPLETE_TASK_NOTIFIER, DB_URI, alive, app, main_loop, HEROKU_API_KEY, HEROKU_APP_NAME
 from .helper.ext_utils.fs_utils import start_cleanup, clean_all, exit_clean_up
 from .helper.ext_utils.telegraph_helper import telegraph
 from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_time
 from .helper.ext_utils.db_handler import DbManger
+from .helper.ext_utils.heroku_helper import getHerokuDetails
 from .helper.telegram_helper.bot_commands import BotCommands
 from .helper.telegram_helper.message_utils import sendMessage, sendMarkup, editMessage, sendLogFile
 from .helper.telegram_helper.filters import CustomFilters
 from .helper.telegram_helper.button_build import ButtonMaker
-from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, delete, count, leech_settings, search, rss
+from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, delete, count, leech_settings, search, rss, qbselect
 
 def stats(update, context):
     if ospath.exists('.git'):
-        last_commit = check_output(["git log -1 --date=short --pretty=format:'%cd \n<b>From</b> %cr'"], shell=True).decode()
+        last_commit = check_output(["git log -1 --date=short --pretty=format:'%cr <b>On</b> %cd'"], shell=True).decode()
     else:
         last_commit = 'No UPSTREAM_REPO'
     currentTime = get_readable_time(time() - botStartTime)
-    osUptime = get_readable_time(time() - boot_time())
     total, used, free, disk= disk_usage('/')
     total = get_readable_file_size(total)
     used = get_readable_file_size(used)
     free = get_readable_file_size(free)
     sent = get_readable_file_size(net_io_counters().bytes_sent)
     recv = get_readable_file_size(net_io_counters().bytes_recv)
-    cpuUsage = cpu_percent(interval=0.5)
-    p_core = cpu_count(logical=False)
-    t_core = cpu_count(logical=True)
-    swap = swap_memory()
-    swap_p = swap.percent
-    swap_t = get_readable_file_size(swap.total)
+    cpuUsage = cpu_percent(interval=1)
     memory = virtual_memory()
     mem_p = memory.percent
-    mem_t = get_readable_file_size(memory.total)
-    mem_a = get_readable_file_size(memory.available)
-    mem_u = get_readable_file_size(memory.used)
-
-    stats = f'<b>★Commit Date:</b> {last_commit}\n'\
-            f'<b>★Bot Uptime:</b> {currentTime}\n'\
-            f'<b>★OS Uptime:</b> {osUptime}\n'\
-            f'<b>★Total Disk Space:</b> {total}\n'\
-            f'<b>★Used:</b> {used} | <b>★Free:</b> {free}\n'\
-            f'<b>★Upload:</b> {sent}\n'\
-            f'<b>★Download:</b> {recv}\n'\
-            f'<b>★CPU:</b> {cpuUsage}%\n'\
-            f'<b>★RAM:</b> {mem_p}%\n'\
-            f'<b>★DISK:</b> {disk}%\n'\
-            f'<b>★Physical Cores:</b> {p_core}\n'\
-            f'<b>★Total Cores:</b> {t_core}\n'\
-            f'<b>★SWAP:</b> {swap_t} | <b>★Used:</b> {swap_p}%\n'\
-            f'<b>★Memory Total:</b> {mem_t}\n'\
-            f'<b>★Memory Free:</b> {mem_a}\n'\
-            f'<b>★Memory Used:</b> {mem_u}\n'
-
+    stats = f'<b><i><u>★ @woodcraft_repo ★Bot Statistics</u></i></b>\n\n'\
+            f'<b>★Updated:</b> <code>{last_commit}</code>\n'\
+            f'<b>★I am Working For:</b> <code>{currentTime}</code>\n'\
+            f'<b>★Total Disk:</b> <code>{total}</code> [{disk}% In use]\n'\
+            f'<b>★Used:</b> <code>{used}</code> | <b>★Free:</b> <code>{free}</code>\n'\
+            f'<b>★T-Up:</b> <code>{sent}</code> | <b>★T-Dn:</b> <code>{recv}</code>\n'\
+            f'<b>★CPU Usage:</b> <code>{cpuUsage}</code>% | <b>★RAM Usage:</b> <code>{mem_p}%</code>\n'
+    if heroku := getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME):
+        stats += heroku
     sendMessage(stats, context.bot, update.message)
 
 def start(update, context):
     buttons = ButtonMaker()
-
     buttons.buildbutton("★Repo", "https://github.com/woodcraft5/mirror-leech-bot")
     buttons.buildbutton("★Report Group", "https://t.me/+mmlX62hc9M43YjI1")
     buttons.buildbutton("★Channel", "https://t.me/woodcraft_repo")
     buttons.buildbutton("★Owner", "https://t.me/woodcraft5")
-
     reply_markup = InlineKeyboardMarkup(buttons.build_menu(2))
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
         start_string = f'''
@@ -109,7 +90,7 @@ help_string_telegraph = f'''<br>
 <br><br>
 <b>/{BotCommands.UnzipMirrorCommand}</b> [download_url][magnet_link]: Start mirroring and upload the file/folder extracted from any archive extension
 <br><br>
-<b>/{BotCommands.QbMirrorCommand}</b> [magnet_link][torrent_file][torrent_file_url]: Start Mirroring using qBittorrent, Use <b>/{BotCommands.QbMirrorCommand} s</b> to select files before downloading and use <b>/{BotCommands.QbMirrorCommand} d</b> to seed specific torrent
+<b>/{BotCommands.QbMirrorCommand}</b> [magnet_link][torrent_file][torrent_file_url]: Start Mirroring using qBittorrent, Use `<b>/{BotCommands.QbMirrorCommand} s</b>` to select files before downloading and use `<b>/{BotCommands.QbMirrorCommand} d</b>` to seed specific torrent and those two args works with all qb commands
 <br><br>
 <b>/{BotCommands.QbZipMirrorCommand}</b> [magnet_link][torrent_file][torrent_file_url]: Start mirroring using qBittorrent and upload the file/folder compressed with zip extension
 <br><br>
@@ -144,6 +125,8 @@ help_string_telegraph = f'''<br>
 <b>/{BotCommands.LeechSetCommand}</b>: Leech settings
 <br><br>
 <b>/{BotCommands.SetThumbCommand}</b>: Reply photo to set it as Thumbnail
+<br><br>
+<b>/{BotCommands.QbSelectCommand}</b>: Reply to an active /qbcmd which was used to start the qb-download or add gid along with cmd. This command mainly for selection incase you decided to select files from already added qb-torrent. But you can always use /qbcmd with arg `s` to select files before download start
 <br><br>
 <b>/{BotCommands.RssListCommand}</b>: List all subscribed rss feed info
 <br><br>
