@@ -9,6 +9,7 @@
 ## ➥ [WOODcraft](https://github.com/woodcraft5)
 <p><a href="https://github.com/woodcraft5https://github.com/woodcraft5"> <img src="https://img.shields.io/badge/Repo%20%E2%96%BA-WOODcraft-blue" width="160""/></a></p>
 - ➥ qBittorrent
+- ➥ Telegram Premium 4GB Leech
 - ➥ Select files from Torrent before downloading using qbittorrent
 - ➥ Leech (splitting, thumbnail for each user, setting as document or as media for each user)
 - ➥ Size limiting for Torrent/Direct, Zip/Unzip, Mega and Clone
