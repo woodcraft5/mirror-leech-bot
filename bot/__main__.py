@@ -33,13 +33,13 @@ def stats(update, context):
     cpuUsage = cpu_percent(interval=1)
     memory = virtual_memory()
     mem_p = memory.percent
-    stats = f'<b><i><u>🌼 @woodcraft_repo Bot Statistics</u></i></b>\n\n'\
-            f'<b>🌼 Updated➤:</b> <code>{last_commit}</code>\n'\
-            f'<b>🌼 I am Working For➤:</b> <code>{currentTime}</code>\n'\
-            f'<b>🌼 Total Disk➤:</b> <code>{total}</code> [{disk}% In use]\n'\
-            f'<b>🌼 Used➤:</b> <code>{used}</code> | <b>🌼 Free➤:</b> <code>{free}</code>\n'\
-            f'<b>🌼 T-Up➤:</b> <code>{sent}</code> | <b>🌼 T-Dn➤:</b> <code>{recv}</code>\n'\
-            f'<b>🌼 CPU Usage➤:</b> <code>{cpuUsage}</code>% | <b>🌼 RAM Usage➤:</b> <code>{mem_p}%</code>\n'
+    stats = f'<b><i><u>★ @woodcraft_repo Bot Statistics ★</u></i></b>\n\n'\
+            f'<b>★ Updated➤:</b> <code>{last_commit}</code>\n'\
+            f'<b>★ Working For➤:</b> <code>{currentTime}</code>\n'\
+            f'<b>★ Total Disk➤:</b> <code>{total}</code> [{disk}% In use]\n'\
+            f'<b>★ Used➤:</b> <code>{used}</code> | <b>★ Free➤:</b> <code>{free}</code>\n'\
+            f'<b>★ T-Up➤:</b> <code>{sent}</code> | <b>★ T-Dn➤:</b> <code>{recv}</code>\n'\
+            f'<b>★ CPU Usage➤:</b> <code>{cpuUsage}</code>% | <b>★ RAM Usage➤:</b> <code>{mem_p}%</code>\n'
     if heroku := getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME):
         stats += heroku
     sendMessage(stats, context.bot, update.message)
