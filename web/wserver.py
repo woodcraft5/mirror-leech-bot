@@ -211,6 +211,14 @@ input[type="submit"]:hover, input[type="submit"]:focus{
   z-index: 10000;
 }
 </style>
+<script>
+function s_validate() {
+    if ($("input[name^='filenode_']:checked").length == 0) {
+        alert("Please select at least one file");
+        return false;
+        }
+    }
+</script>
 </head>
 <body>
   <!--© Designed and coded by @bipuldey19-Telegram-->
@@ -234,7 +242,7 @@ input[type="submit"]:hover, input[type="submit"]:focus{
         <h4>Selected files size: <b id="checked_size">0</b> of <b id="total_size">0</b></h4>
     </div>
       <section>
-      <form action="{form_url}" method="POST">
+      <form action="{form_url}" onsubmit="return s_validate()" method="POST">
        {My_content}
        <input type="submit" name="Select these files ;)">
       </form>
@@ -753,7 +761,7 @@ def set_priority(hash_id):
 
 @app.route('/')
 def homepage():
-    return "<h1>See @woodcraft_repo <a href='https://github.com/woodcraft5/mirror-leech-bot'>@GitHub</a> By <a href='https://github.com/woodcraft5'>woodcraft</a></h1>"
+    return "<h1>See @woodcraft_repo_bot <a href='https://github.com/woodcraft5/mirror-leech-bot'>@GitHub</a> By <a href='https://github.com/woodcraft5'>woodcraft5</a></h1>"
 
 @app.errorhandler(NotFound404Error)
 def page_not_found(e):
