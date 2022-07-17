@@ -7,7 +7,7 @@ from aria2p import API as ariaAPI, Client as ariaClient
 from os import remove as osremove, path as ospath, environ
 from requests import get as rget
 from json import loads as jsnloads
-from subprocess import Popen, run as srun, check_output
+from subprocess import Popen, run as srun
 from time import sleep, time
 from threading import Thread, Lock
 from dotenv import load_dotenv
@@ -56,14 +56,14 @@ try:
 except:
     SERVER_PORT = 80
 
-Popen([f"gunicorn web.wserver:app --bind 0.0.0.0:{SERVER_PORT}"], shell=True)
+Popen(f"gunicorn web.wserver:app --bind 0.0.0.0:{SERVER_PORT}", shell=True)
 srun(["qbittorrent-nox", "-d", "--profile=."])
 if not ospath.exists('.netrc'):
     srun(["touch", ".netrc"])
 srun(["cp", ".netrc", "/root/.netrc"])
 srun(["chmod", "600", ".netrc"])
 srun(["chmod", "+x", "aria.sh"])
-srun(["./aria.sh"], shell=True)
+srun("./aria.sh", shell=True)
 sleep(0.5)
 
 Interval = []
@@ -486,15 +486,6 @@ try:
     BOT_PM = BOT_PM.lower() == 'true'
 except KeyError:
     BOT_PM = False
-try:
-    HEROKU_API_KEY = getConfig('HEROKU_API_KEY')
-    HEROKU_APP_NAME = getConfig('HEROKU_APP_NAME')
-    if len(HEROKU_API_KEY) == 0 or len(HEROKU_APP_NAME) == 0:
-        raise KeyError
-except KeyError:
-    LOGGER.warning("Heroku details not entered.")
-    HEROKU_API_KEY = None
-    HEROKU_APP_NAME = None
 try:
     TOKEN_PICKLE_URL = getConfig('TOKEN_PICKLE_URL')
     if len(TOKEN_PICKLE_URL) == 0:
