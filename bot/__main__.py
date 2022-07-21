@@ -6,7 +6,8 @@ from time import time
 from sys import executable
 from telegram import InlineKeyboardMarkup
 from telegram.ext import CommandHandler
-from bot import bot, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, LOGGER, Interval, INCOMPLETE_TASK_NOTIFIER, DB_URI, app, main_loop
+from bot import bot, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, LOGGER, Interval, INCOMPLETE_TASK_NOTIFIER,\
+                DB_URI, app, main_loop, AUTHORIZED_CHATS, TITLE_NAME
 from .helper.ext_utils.fs_utils import start_cleanup, clean_all, exit_clean_up
 from .helper.ext_utils.telegraph_helper import telegraph
 from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_time
@@ -32,19 +33,19 @@ def stats(update, context):
     cpuUsage = cpu_percent(interval=1)
     memory = virtual_memory()
     mem_p = memory.percent
-    stats = f'<b><i><u>★ @woodcraft_repo Bot Statistics ★</u></i></b>\n\n'\
-            f'<b>★ Updated➤:</b> <code>{last_commit}</code>\n'\
-            f'<b>★ Working For➤:</b> <code>{currentTime}</code>\n'\
-            f'<b>★ Total Disk➤:</b> <code>{total}</code> [{disk}% In use]\n'\
-            f'<b>★ Used➤:</b> <code>{used}</code> | <b>★ Free➤:</b> <code>{free}</code>\n'\
-            f'<b>★ T-Up➤:</b> <code>{sent}</code> | <b>★ T-Dn➤:</b> <code>{recv}</code>\n'\
-            f'<b>★ CPU Usage➤:</b> <code>{cpuUsage}</code>% | <b>★ RAM Usage➤:</b> <code>{mem_p}%</code>\n'
+    stats = f'<b><i><u>{TITLE_NAME} ★Bot Statistics★</u></i></b>\n\n'\
+            f'<b>★ Updated ▬</b> <code>{last_commit}</code>\n'\
+            f'<b>★ Working For ▬</b> <code>{currentTime}</code>\n'\
+            f'<b>★ Total Disk ▬</b> <code>{total}</code> [{disk}% In use]\n'\
+            f'<b>★ Used ▬</b> <code>{used}</code> | <b>★ Free ▬</b> <code>{free}</code>\n'\
+            f'<b>★ T-Up ▬</b> <code>{sent}</code> | <b>★ T-Dn ▬</b> <code>{recv}</code>\n'\
+            f'<b>★ CPU Usage ▬</b> <code>{cpuUsage}</code>% | <b>★ RAM Usage ▬</b> <code>{mem_p}%</code>\n'
     sendMessage(stats, context.bot, update.message)
 
 def start(update, context):
     buttons = ButtonMaker()
     buttons.buildbutton("★Repo", "https://github.com/woodcraft5/mirror-leech-bot")
-    buttons.buildbutton("★Report Group", "https://t.me/+mmlX62hc9M43YjI1")
+    buttons.buildbutton("★Group", "https://t.me/+mmlX62hc9M43YjI1")
     buttons.buildbutton("★Channel", "https://t.me/woodcraft_repo")
     buttons.buildbutton("★Owner", "https://t.me/woodcraft5")
     reply_markup = InlineKeyboardMarkup(buttons.build_menu(2))
@@ -149,7 +150,7 @@ help_string_telegraph = f'''<br>
 '''
 
 help = telegraph.create_page(
-        title='WOODcraft Torrent Search',
+        title= f'{TITLE_NAME} Help',
         content=help_string_telegraph,
     )["path"]
 
@@ -218,15 +219,16 @@ botcmds = [
 def main():
     # bot.set_my_commands(botcmds)
     start_cleanup()
+    notifier_dict = None
     if INCOMPLETE_TASK_NOTIFIER and DB_URI is not None:
         if notifier_dict := DbManger().get_incomplete_tasks():
             for cid, data in notifier_dict.items():
                 if ospath.isfile(".restartmsg"):
                     with open(".restartmsg") as f:
                         chat_id, msg_id = map(int, f)
-                    msg = 'Restarted successfully!'
+                    msg = '✔️ Restarted successfully!'
                 else:
-                    msg = 'Bot Restarted!'
+                    msg = '✔️ Bot Restarted!'
                 for tag, links in data.items():
                      msg += f"\n\n{tag}: "
                      for index, link in enumerate(links, start=1):
@@ -237,7 +239,7 @@ def main():
                                  osremove(".restartmsg")
                              else:
                                  try:
-                                     bot.sendMessage(cid, msg, 'HTML')
+                                     bot.sendMessage(cid, msg, 'HTML', disable_web_page_preview=True)
                                  except Exception as e:
                                      LOGGER.error(e)
                              msg = ''
@@ -246,7 +248,7 @@ def main():
                      osremove(".restartmsg")
                 else:
                     try:
-                        bot.sendMessage(cid, msg, 'HTML')
+                        bot.sendMessage(cid, msg, 'HTML', disable_web_page_preview=True)
                     except Exception as e:
                         LOGGER.error(e)
 
@@ -255,6 +257,12 @@ def main():
             chat_id, msg_id = map(int, f)
         bot.edit_message_text("Restarted successfully!", chat_id, msg_id)
         osremove(".restartmsg")
+    elif not notifier_dict and AUTHORIZED_CHATS:
+        for id_ in AUTHORIZED_CHATS:
+            try:
+                bot.sendMessage(id_, "Bot Restarted!", 'HTML')
+            except Exception as e:
+                LOGGER.error(e)
 
     start_handler = CommandHandler(BotCommands.StartCommand, start, run_async=True)
     ping_handler = CommandHandler(BotCommands.PingCommand, ping,
