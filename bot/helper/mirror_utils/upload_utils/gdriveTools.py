@@ -16,7 +16,7 @@ from telegram import InlineKeyboardMarkup
 from tenacity import retry, wait_exponential, stop_after_attempt, retry_if_exception_type, RetryError
 from bot import parent_id, DOWNLOAD_DIR, IS_TEAM_DRIVE, INDEX_URL, USE_SERVICE_ACCOUNTS, BUTTON_FOUR_NAME, \
                 BUTTON_FOUR_URL, BUTTON_FIVE_NAME, BUTTON_FIVE_URL, BUTTON_SIX_NAME, BUTTON_SIX_URL, VIEW_LINK, \
-                DRIVES_NAMES, DRIVES_IDS, INDEX_URLS, EXTENSION_FILTER
+                DRIVES_NAMES, DRIVES_IDS, INDEX_URLS, EXTENSION_FILTER, TITLE_NAME
 from bot.helper.telegram_helper.button_build import ButtonMaker
 from bot.helper.ext_utils.telegraph_helper import telegraph
 from bot.helper.ext_utils.bot_utils import get_readable_file_size, setInterval
@@ -160,7 +160,7 @@ class GoogleDriveHelper:
         # File body description
         file_metadata = {
             'name': file_name,
-            'description': 'Uploaded 𝐁𝐲 - 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭',
+            'description': f'Uploaded by {TITLE_NAME}',
             'mimeType': mime_type,
         }
         if parent_id is not None:
@@ -425,7 +425,7 @@ class GoogleDriveHelper:
     def __create_directory(self, directory_name, parent_id):
         file_metadata = {
             "name": directory_name,
-            "description": "Uploaded 𝐁𝐲 - 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭",
+            "description": f"Uploaded by {TITLE_NAME}",
             "mimeType": self.__G_DRIVE_DIR_MIME_TYPE
         }
         if parent_id is not None:
@@ -668,7 +668,7 @@ class GoogleDriveHelper:
 
         path = [
             telegraph.create_page(
-                title='WOODcraft Torrent Search', content=content
+                title= f'{TITLE_NAME}', content=content
             )["path"]
             for content in telegraph_content
         ]
@@ -790,10 +790,10 @@ class GoogleDriveHelper:
             meta = self.__getFileMetadata(file_id)
             path = f"{DOWNLOAD_DIR}{self.__listener.uid}/"
             if meta.get("mimeType") == self.__G_DRIVE_DIR_MIME_TYPE:
-                self.__download_folder(file_id, path, meta.get('name'))
+                self.__download_folder(file_id, path, self.name)
             else:
                 makedirs(path)
-                self.__download_file(file_id, path, meta.get('name'), meta.get('mimeType'))
+                self.__download_file(file_id, path, self.name, meta.get('mimeType'))
         except Exception as err:
             if isinstance(err, RetryError):
                 LOGGER.info(f"Total Attempts: {err.last_attempt.attempt_number}")
