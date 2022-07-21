@@ -22,6 +22,9 @@ from bot import LOGGER, UPTOBOX_TOKEN, CRYPT, APPDRIVE_EMAIL, APPDRIVE_PASS
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.ext_utils.bot_utils import is_gdtot_link, is_appdrive_link
 from bot.helper.ext_utils.exceptions import DirectDownloadLinkException
+from bs4 import BeautifulSoup as b4
+import requests as r
+import re
 
 fmed_list = ['fembed.net', 'fembed.com', 'femax20.com', 'fcdn.stream', 'feurl.com', 'layarkacaxxi.icu',
              'naniplay.nanime.in', 'naniplay.nanime.biz', 'naniplay.com', 'mm9842.com']
@@ -77,9 +80,23 @@ def direct_link_generator(link: str):
         raise DirectDownloadLinkException(f'No Direct link function found for {link}')
 
 def zippy_share(url: str) -> str:
-    """ ZippyShare direct link generator
-    Based on https://github.com/zevtyardt/lk21 """
-    return Bypass().bypass_zippyshare(url)
+    try:
+        link = re_findall(r'\bhttps?://.*zippyshare\.com\S+', url)[0]
+    except IndexError:
+        raise DirectDownloadLinkException("ERROR: No Zippyshare links found")
+    try:
+        base_url = re.search('http.+.zippyshare.com/', url).group()
+        response = r.get(url).content
+        pages = b4(response, "lxml")
+        js_script = pages.find("div", {"class": "right"})
+        js_script = js_script.find_all("script")[0]
+        js_content = re.findall(r'\.href.=."/(.*?)";', str(js_script))[0]
+        js_content = str(js_content).split('"')
+        a = str(js_script).split('var a = ')[1].split(';')[0]
+        value = int(a) ** 3 + 3
+        return base_url + js_content[0] + str(value) + js_content[2]
+    except IndexError:
+        raise DirectDownloadLinkException("ERROR: Can't find download button")
 
 def yandex_disk(url: str) -> str:
     """ Yandex.Disk direct link generator
