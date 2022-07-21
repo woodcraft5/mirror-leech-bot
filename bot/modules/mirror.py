@@ -13,7 +13,7 @@ from telegram.ext import CommandHandler
 from bot import bot, Interval, INDEX_URL, BUTTON_FOUR_NAME, BUTTON_FOUR_URL, BUTTON_FIVE_NAME, BUTTON_FIVE_URL, \
                 BUTTON_SIX_NAME, BUTTON_SIX_URL, VIEW_LINK, aria2, QB_SEED, dispatcher, DOWNLOAD_DIR, \
                 download_dict, download_dict_lock, TG_SPLIT_SIZE, LOGGER, DB_URI, INCOMPLETE_TASK_NOTIFIER, \
-                LEECH_LOG, BOT_PM, MIRROR_LOGS, FSUB, CHANNEL_USERNAME, FSUB_CHANNEL_ID
+                LEECH_LOG, BOT_PM, MIRROR_LOGS, FSUB, CHANNEL_USERNAME, FSUB_CHANNEL_ID, TITLE_NAME
 from bot.helper.ext_utils.bot_utils import is_url, is_magnet, is_gdtot_link, is_mega_link, is_gdrive_link, get_content_type, get_readable_time
 from bot.helper.ext_utils.fs_utils import get_base_name, get_path_size, split_file, clean_download
 from bot.helper.ext_utils.shortenurl import short_url
@@ -43,6 +43,7 @@ class MirrorListener:
         self.message = message
         self.uid = self.message.message_id
         self.extract = extract
+        self.ext_proc = Popen
         self.isZip = isZip
         self.isQbit = isQbit
         self.isLeech = isLeech
@@ -121,7 +122,7 @@ class MirrorListener:
                                     self.ext_proc = Popen(["7z", "x", f"-p{self.pswd}", m_path, f"-o{dirpath}", "-aot"])
                                 else:
                                     self.ext_proc = Popen(["7z", "x", m_path, f"-o{dirpath}", "-aot"])
-                                self.arch_proc.wait()
+                                self.ext_proc.wait()
                                 if self.ext_proc.returncode == -9:
                                     return
                                 elif self.ext_proc.returncode != 0:
@@ -228,7 +229,7 @@ class MirrorListener:
                 msg += f'\n<b>➦ Corrupted Files: </b>{typ}'
             msg += f'\n\n<b>➦ Hey </b>{self.tag} <b>➦ Your file Successful</b>'
             msg += f'\n<b>➦ It Tooks:</b> {get_readable_time(time() - self.message.date.timestamp())}'
-            msg += f'\n\n<b>🍁 YOU using  @woodcraft_repo</b>'
+            msg += f'\n\n<b>🍁 YOU using {TITLE_NAME}</b>'
             if not files:
                 sendMessage(msg, self.bot, self.message)
             else:
@@ -248,7 +249,7 @@ class MirrorListener:
                 msg += f'\n<b>➦ Files: </b>{files}'
             msg += f'\n\n<b>➦ Hey </b>{self.tag} <b>➦ Your file Successful</b>'
             msg += f'\n<b>➦ It Tooks:</b> {get_readable_time(time() - self.message.date.timestamp())}'
-            msg += f'\n\n<b>🍁 YOU using @woodcraft_repo</b>'
+            msg += f'\n\n<b>🍁 YOU using {TITLE_NAME}</b>'
             buttons = ButtonMaker()
             link = short_url(link)
             buttons.buildbutton("🌼 Drive Link 🌼", link)
@@ -335,9 +336,9 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
             uname = message.from_user.mention_html(message.from_user.first_name)
             user = bot.get_chat_member(FSUB_CHANNEL_ID, message.from_user.id)
             if user.status not in ['member', 'creator', 'administrator']:
-                buttons.buildbutton("Woodcraft Repo", f"https://t.me/{CHANNEL_USERNAME}")
+                buttons.buildbutton( f"{TITLE_NAME}", f"https://t.me/{CHANNEL_USERNAME}")
                 reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
-                return sendMarkup(f"<b>➦ Dear {uname}️,\nYou haven't joined our Updates Channel yet.\nJoin and Use Me Without any Restrictions.</b>", bot, message, reply_markup)
+                return sendMarkup(f"<b>Dear {uname}️,\n\nI found that you haven't joined our Updates Channel yet.\n\nJoin and Use Bots Without Restrictions.</b>", bot, message, reply_markup)
         except Exception as e:
             LOGGER.info(str(e))
 
@@ -501,7 +502,7 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
             gmsg += f"Use /{BotCommands.UnzipMirrorCommand} to extracts Google Drive archive file"
             sendMessage(gmsg, bot, message)
         else:
-            Thread(target=add_gd_download, args=(link, listener, is_gdtot)).start()
+            Thread(target=add_gd_download, args=(link, listener, name, is_gdtot)).start()
     elif is_mega_link(link):
         Thread(target=add_mega_download, args=(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener, name)).start()
     elif isQbit and (is_magnet(link) or ospath.exists(link)):
