@@ -59,7 +59,8 @@ class YoutubeDLHelper:
                      'cookiefile': 'cookies.txt',
                      'allow_multiple_video_streams': True,
                      'allow_multiple_audio_streams': True,
-                     'trim_file_name': 200,}
+                     'trim_file_name': 200,
+                     'noprogress': True,}
 
     @property
     def download_speed(self):
@@ -124,7 +125,9 @@ class YoutubeDLHelper:
                 return self.__onDownloadError(str(e))
         if 'entries' in result:
             for v in result['entries']:
-                if 'filesize_approx' in v:
+                if not v:
+                    continue
+                elif 'filesize_approx' in v:
                     self.size += v['filesize_approx']
                 elif 'filesize' in v:
                     self.size += v['filesize']
