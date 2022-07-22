@@ -503,7 +503,7 @@ try:
         raise KeyError
 except KeyError:
     log_info("CHANNEL_USERNAME not provided! Using default @woodcraft_repo")
-    CHANNEL_USERNAME = "Woodcraft_Repo"
+    CHANNEL_USERNAME = "woodcraft_repo"
 try:
     FSUB_CHANNEL_ID = getConfig("FSUB_CHANNEL_ID")
     if len(FSUB_CHANNEL_ID) == 0:
@@ -520,9 +520,9 @@ except KeyError:
 try:
     TITLE_NAME = getConfig('TITLE_NAME')
     if len(TITLE_NAME) == 0:
-        TITLE_NAME = 'Woodcraft_Repo'
+        TITLE_NAME = 'woodcraft_repo'
 except KeyError:
-    TITLE_NAME = 'Woodcraft_Repo'
+    TITLE_NAME = 'woodcraft_repo'
 try:
     TOKEN_PICKLE_URL = getConfig('TOKEN_PICKLE_URL')
     if len(TOKEN_PICKLE_URL) == 0:
