@@ -35,12 +35,12 @@ def stats(update, context):
     memory = virtual_memory()
     mem_p = memory.percent
     stats = f'<b><i><u>{TITLE_NAME} ★Bot Statistics★</u></i></b>\n\n'\
-            f'<b>★Updated ●</b> <code>{last_commit}</code>\n'\
-            f'<b>★Working For ●</b> <code>{currentTime}</code>\n'\
-            f'<b>★Total Disk ●</b> <code>{total}</code> [{disk}% In use]\n'\
-            f'<b>★Used ●</b> <code>{used}</code> | <b>★Free ●</b> <code>{free}</code>\n'\
-            f'<b>★T-Up ●</b> <code>{sent}</code> | <b>★T-Dn ●</b> <code>{recv}</code>\n'\
-            f'<b>★CPU Usage ●</b> <code>{cpuUsage}</code>% | <b>★RAM Usage ●</b> <code>{mem_p}%</code>\n'
+            f'<b>★Updated●:</b> <code>{last_commit}</code>\n'\
+            f'<b>★I am Working●:</b> <code>{currentTime}</code>\n'\
+            f'<b>★Total Disk●:</b> <code>{total}</code> [{disk}% In use]\n'\
+            f'<b>★Used●:</b> <code>{used}</code> | <b>★Free●:</b> <code>{free}</code>\n'\
+            f'<b>★T-Up●:</b> <code>{sent}</code> | <b>★T-Dn●:</b> <code>{recv}</code>\n'\
+            f'<b>★CPU Usage●:</b> <code>{cpuUsage}</code>% | <b>★RAM Usage●:</b> <code>{mem_p}%</code>\n'
     if heroku := getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME):
         stats += heroku
     sendMessage(stats, context.bot, update.message)
@@ -192,9 +192,9 @@ def main():
                 if ospath.isfile(".restartmsg"):
                     with open(".restartmsg") as f:
                         chat_id, msg_id = map(int, f)
-                    msg = '✔️ Restarted successfully!'
+                    msg = 'Restarted successfully!'
                 else:
-                    msg = '✔️ Bot Restarted!'
+                    msg = 'Bot Restarted!'
                 for tag, links in data.items():
                      msg += f"\n\n{tag}: "
                      for index, link in enumerate(links, start=1):
@@ -221,12 +221,12 @@ def main():
     if ospath.isfile(".restartmsg"):
         with open(".restartmsg") as f:
             chat_id, msg_id = map(int, f)
-        bot.edit_message_text("✔️ Restarted successfully!", chat_id, msg_id)
+        bot.edit_message_text("Restarted successfully!", chat_id, msg_id)
         osremove(".restartmsg")
     elif not notifier_dict and AUTHORIZED_CHATS:
         for id_ in AUTHORIZED_CHATS:
             try:
-                bot.sendMessage(id_, "✔️ Bot Restarted!", 'HTML')
+                bot.sendMessage(id_, "Bot Restarted!", 'HTML')
             except Exception as e:
                 LOGGER.error(e)
 
