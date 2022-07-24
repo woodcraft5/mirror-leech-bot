@@ -1,7 +1,7 @@
 from bot.helper.ext_utils.bot_utils import get_readable_time
 from subprocess import run
 from requests import Session
-from bot import LOGGER
+from bot import LOGGER, TITLE_NAME
 from random import randint
 
 def getRandomUserAgent():
