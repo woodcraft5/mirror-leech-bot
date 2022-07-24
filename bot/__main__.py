@@ -34,18 +34,22 @@ def stats(update, context):
     cpuUsage = cpu_percent(interval=1)
     memory = virtual_memory()
     mem_p = memory.percent
-    stats = f'<b><i><u>{TITLE_NAME} ★Bot Statistics★</u></i></b>\n\n'\
-            f'<b>★Updated●:</b> <code>{last_commit}</code>\n'\
-            f'<b>★I am Working●:</b> <code>{currentTime}</code>\n'\
-            f'<b>★Total Disk●:</b> <code>{total}</code> [{disk}% In use]\n'\
-            f'<b>★Used●:</b> <code>{used}</code>\n'\
-            f'<b>★Free●:</b> <code>{free}</code>\n'\
-            f'<b>★T-Up●:</b> <code>{sent}</code>\n'\
-            f'<b>★T-Dn●:</b> <code>{recv}</code>\n'\
-            f'<b>★CPU Usage●:</b> <code>{cpuUsage}</code>%\n'\
-            f'<b>★RAM Usage●:</b> <code>{mem_p}%</code>\n'
+    stats = f'<b>★★★ Bot Statistics ★</b>\n'\
+            f'<b>★</b>\n'\
+            f'<b>★Updated ●</b> <code>{last_commit}</code>\n'\
+            f'<b>★I am Working ●</b> <code>{currentTime}</code>\n'\
+            f'<b>★Total Disk ●</b> <code>{total}</code> [{disk}% In use]\n'\
+            f'<b>★Used ●</b> <code>{used}</code>\n'\
+            f'<b>★Free ●</b> <code>{free}</code>\n'\
+            f'<b>★T-Up ●</b> <code>{sent}</code>\n'\
+            f'<b>★T-Dn ●</b> <code>{recv}</code>\n'\
+            f'<b>★CPU Usage ●</b> <code>{cpuUsage}</code>%\n'\
+            f'<b>★RAM Usage ●</b> <code>{mem_p}%</code>\n'\
+            f'<b>★</b>\n'
     if heroku := getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME):
         stats += heroku
+    else:
+        stats += f'<b>★★★ ✤┅┅●❬ {TITLE_NAME} ❭●┅┅✤</b>'
     sendMessage(stats, context.bot, update.message)
 
 def start(update, context):
