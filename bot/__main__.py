@@ -65,7 +65,7 @@ def start(update, context):
 Welcome | WOODcraft service is ready for you
 Type /{BotCommands.HelpCommand} to get a list of available commands
 '''
-        sendMarkup(update.effective_message.reply_photo("https://telegra.ph/file/2f12ae9cab1f867310f93.jpg", start_string, parse_mode=ParseMode.MARKDOWN) 
+        update.effective_message.reply_photo("https://telegra.ph/file/8bd71fe4400f4cbc13b95.jpg", start_string, parse_mode=ParseMode.MARKDOWN) 
         sendMarkup(start_string, context.bot, update.message, reply_markup)
     else:
         sendMarkup('Sorry, You cannot use me', context.bot, update.message, reply_markup)
