@@ -216,8 +216,8 @@ class MirrorListener:
             DbManger().rm_complete_task(self.message.link)
         msg = f"<b>➦ ✤┅┅●❬ {TITLE_NAME} ❭●┅┅✤</b>"
         msg += f"<b>➦</b>"     
-        msg += f"<b>➦ File Name: </b><code>{escape(name)}</code><b>"
-        msg += f"<b>➦ File Size: </b>{size}</code><b>"
+        msg += f"<b>➦ File Name: </b><code>{escape(name)}"
+        msg += f"<b>➦ File Size: </b>{size}"
         if self.isLeech:
             if BOT_PM:
                 bot_d = bot.get_me()
