@@ -215,7 +215,7 @@ class MirrorListener:
         if not self.isPrivate and INCOMPLETE_TASK_NOTIFIER and DB_URI is not None:
             DbManger().rm_complete_task(self.message.link)
         msg = f"<b>➦ ✤┅┅●❬ {TITLE_NAME} ❭●┅┅✤</b>"
-        msg += f"<b>➦</b>\n"     
+        msg += f"<b>  </b>\n"     
         msg += f"<b>➦ File Name: </b><code>{escape(name)}</code>\n"
         msg += f"<b>➦ File Size: </b>{size}"
         if self.isLeech:
@@ -227,9 +227,10 @@ class MirrorListener:
             msg += f'\n<b>➦ Total Files: </b>{folders}'
             if typ != 0:
                 msg += f'\n<b>➦ Corrupted Files: </b>{typ}'
-            msg += f'\n\n<b>➦ Hey </b>{self.tag} <b>➦ Your file Successful</b>'
+            msg += f'\n\n<b>➦ User </b>{self.tag}'
+            msg += f'\n<b>➦ Your file successfully...</b>'
             msg += f'\n<b>➦ It Tooks:</b> {get_readable_time(time() - self.message.date.timestamp())}'
-            msg += f'\n\n<b>🍁 YOU using {TITLE_NAME}</b>'
+            msg += f'\n\n<b>➦ Repo-By ✤ {TITLE_NAME}</b>'
             if not files:
                 sendMessage(msg, self.bot, self.message)
             else:
@@ -247,10 +248,10 @@ class MirrorListener:
             if ospath.isdir(f'{DOWNLOAD_DIR}{self.uid}/{name}'):
                 msg += f'\n<b>➦ SubFolders: </b>{folders}'
                 msg += f'\n<b>➦ Files: </b>{files}'
-            msg += f'\n\n<b>➦ Hey </b>{self.tag}'
-            msg += f'\n<b>➦ Your file Successful</b>'
+            msg += f'\n\n<b>➦ User </b>{self.tag}'
+            msg += f'\n<b>➦ Your file successfully...</b>'
             msg += f'\n<b>➦ It Tooks:</b> {get_readable_time(time() - self.message.date.timestamp())}'
-            msg += f'\n\n<b>🍁 YOU using {TITLE_NAME}</b>'
+            msg += f'\n\n<b>➦ Repo-By ✤ {TITLE_NAME}</b>'
             buttons = ButtonMaker()
             link = short_url(link)
             buttons.buildbutton("🌼 Drive Link 🌼", link)
