@@ -142,7 +142,7 @@ def get_readable_message():
                 globals()['COUNT'] -= STATUS_LIMIT
                 globals()['PAGE_NO'] -= 1
         for index, download in enumerate(list(download_dict.values())[COUNT:], start=1):
-                   update.effective_message.reply_photo("https://telegra.ph/file/48fab66115573350043b5.jpg", start_string, parse_mode=ParseMode.MARKDOWN)            
+            msg += f"<b>update.effective_message.reply_photo("https://telegra.ph/file/48fab66115573350043b5.jpg", start_string, parse_mode=ParseMode.MARKDOWN)"            
             msg += f"<b>➦★ ✤┅┅●❬ {TITLE_NAME} ❭●┅┅✤</b>"
             msg += f"\n\n<b>➦ File Name:</b> <code>{escape(str(download.name()))}</code>"
             msg += f"\n<b>➦ Status:</b> <i>{download.status()}</i>"
