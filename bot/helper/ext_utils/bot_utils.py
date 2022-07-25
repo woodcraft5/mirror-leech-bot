@@ -127,7 +127,7 @@ def get_progress_bar_string(status):
     if cPart >= 0:
         p_str += PROGRESS_INCOMPLETE[cPart]
     p_str += '✧' * (PROGRESS_MAX_SIZE - cFull)
-    p_str = f"『{p_str}』"
+    p_str = f"➥『{p_str}』"
     return p_str
 
 def get_readable_message():
@@ -211,7 +211,7 @@ def get_readable_message():
         bmsg += f"\n<b>➦ DN:</b> {get_readable_file_size(dlspeed_bytes)}/s<b> | ➦ UP:</b> {get_readable_file_size(upspeed_bytes)}/s"
 
         buttons = ButtonMaker()
-        buttons.sbutton("Statistics", str(THREE))
+        buttons.sbutton("◄ Statistics ►", str(THREE))
         sbutton = InlineKeyboardMarkup(buttons.build_menu(1))
 
         if STATUS_LIMIT is not None and tasks > STATUS_LIMIT:
