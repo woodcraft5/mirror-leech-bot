@@ -222,7 +222,7 @@ def _getResult(search_results, key, message, method):
 
     editMessage(f"<b>Creating</b> {len(telegraph_content)} <b>Telegraph pages.</b>", message)
     path = [telegraph.create_page(
-                title='WOODcraft Drive Search',
+                title='WOODcraft Torrent Search',
                 content=content
             )["path"] for content in telegraph_content]
     sleep(0.5)
