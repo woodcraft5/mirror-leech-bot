@@ -7,8 +7,7 @@ from telegram import ParseMode
 from sys import executable
 from telegram import InlineKeyboardMarkup
 from telegram.ext import CommandHandler
-from bot import bot, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, LOGGER, Interval, INCOMPLETE_TASK_NOTIFIER,\
-                DB_URI, alive, app, main_loop, HEROKU_API_KEY, HEROKU_APP_NAME, AUTHORIZED_CHATS, TITLE_NAME
+from bot import bot, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, LOGGER, Interval, INCOMPLETE_TASK_NOTIFIER, DB_URI, alive, app, main_loop, HEROKU_API_KEY, HEROKU_APP_NAME
 from .helper.ext_utils.fs_utils import start_cleanup, clean_all, exit_clean_up
 from .helper.ext_utils.telegraph_helper import telegraph
 from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_time
@@ -47,10 +46,10 @@ def stats(update, context):
             f'<b>★CPU Usage ●</b> <code>{cpuUsage}</code>%\n'\
             f'<b>★RAM Usage ●</b> <code>{mem_p}%</code>\n'\
             f'<b>★</b>\n'
-    if heroku := getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME):
-        stats += heroku
+    heroku = getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME)
+    if heroku: stats += heroku
     else:
-        stats += f'<b>★★★ ✤┅┅●❬ {TITLE_NAME} ❭●┅┅✤</b>'
+               stats += f'<b>★★★ ✤┅┅●❬ {TITLE_NAME} ❭●┅┅✤</b>'
     sendMessage(stats, context.bot, update.message)
 
 def start(update, context):
@@ -61,11 +60,11 @@ def start(update, context):
     buttons.buildbutton("★Owner", "https://t.me/woodcraft5")
     reply_markup = InlineKeyboardMarkup(buttons.build_menu(2))
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
-        start_string = f'''               
+        start_string = f'''
 Welcome | WOODcraft service is ready for you
 Type /{BotCommands.HelpCommand} to get a list of available commands
 '''
-        update.effective_message.reply_photo("https://telegra.ph/file/48fab66115573350043b5.jpg", start_string, parse_mode=ParseMode.MARKDOWN) 
+        update.effective_message.reply_photo("https://telegra.ph/file/48fab66115573350043b5.jpg", start_string, parse_mode=ParseMode.MARKDOWN)
         sendMarkup(start_string, context.bot, update.message, reply_markup)
     else:
         sendMarkup('Sorry, You cannot use me', context.bot, update.message, reply_markup)
@@ -194,16 +193,16 @@ def bot_help(update, context):
 
 def main():
     start_cleanup()
-    notifier_dict = None
     if INCOMPLETE_TASK_NOTIFIER and DB_URI is not None:
-        if notifier_dict := DbManger().get_incomplete_tasks():
+        notifier_dict = DbManger().get_incomplete_tasks()
+        if notifier_dict:
             for cid, data in notifier_dict.items():
                 if ospath.isfile(".restartmsg"):
                     with open(".restartmsg") as f:
                         chat_id, msg_id = map(int, f)
-                    msg = '✔️Restarted successfully!'
+                    msg = 'Restarted successfully!'
                 else:
-                    msg = '✔️Bot Restarted!'
+                    msg = 'Bot Restarted!'
                 for tag, links in data.items():
                      msg += f"\n\n{tag}: "
                      for index, link in enumerate(links, start=1):
@@ -214,7 +213,7 @@ def main():
                                  osremove(".restartmsg")
                              else:
                                  try:
-                                     bot.sendMessage(cid, msg, 'HTML', disable_web_page_preview=True)
+                                     bot.sendMessage(cid, msg, 'HTML')
                                  except Exception as e:
                                      LOGGER.error(e)
                              msg = ''
@@ -223,7 +222,7 @@ def main():
                      osremove(".restartmsg")
                 else:
                     try:
-                        bot.sendMessage(cid, msg, 'HTML', disable_web_page_preview=True)
+                        bot.sendMessage(cid, msg, 'HTML')
                     except Exception as e:
                         LOGGER.error(e)
 
@@ -232,12 +231,6 @@ def main():
             chat_id, msg_id = map(int, f)
         bot.edit_message_text("Restarted successfully!", chat_id, msg_id)
         osremove(".restartmsg")
-    elif not notifier_dict and AUTHORIZED_CHATS:
-        for id_ in AUTHORIZED_CHATS:
-            try:
-                bot.sendMessage(id_, "Bot Restarted!", 'HTML')
-            except Exception as e:
-                LOGGER.error(e)
 
     start_handler = CommandHandler(BotCommands.StartCommand, start, run_async=True)
     ping_handler = CommandHandler(BotCommands.PingCommand, ping,
