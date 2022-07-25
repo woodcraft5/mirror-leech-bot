@@ -30,7 +30,6 @@ class MirrorStatus:
     STATUS_DOWNLOADING = "Downloading...📥"
     STATUS_CLONING = "Cloning...♻️"
     STATUS_WAITING = "Queued...💤"
-    STATUS_FAILED = "Failed 🚫. Cleaning Download..."
     STATUS_PAUSE = "Paused...⛔️"
     STATUS_ARCHIVING = "Archiving...🔐"
     STATUS_EXTRACTING = "Extracting...📂"
@@ -41,7 +40,7 @@ class MirrorStatus:
 class EngineStatus:
     STATUS_ARIA = "Aria2c v1.35.0"
     STATUS_GD = "Google Api v2.51.0"
-    STATUS_MEGA = "MegaSDK v3.12.0"
+    STATUS_MEGA = "Mega Api v3.12.0"
     STATUS_QB = "qBittorrent v4.4.2"
     STATUS_TG = "Pyrogram v2.0.27"
     STATUS_YT = "YT-dlp v22.5.18"
@@ -88,34 +87,32 @@ def getDownloadByGid(gid):
     with download_dict_lock:
         for dl in list(download_dict.values()):
             status = dl.status()
-            if (
-                status
-                not in [
-                    MirrorStatus.STATUS_ARCHIVING,
-                    MirrorStatus.STATUS_EXTRACTING,
-                    MirrorStatus.STATUS_SPLITTING,
-                ]
-                and dl.gid() == gid
-            ):
+            if dl.gid() == gid:
                 return dl
     return None
 
 def getAllDownload(req_status: str):
     with download_dict_lock:
         for dl in list(download_dict.values()):
-            status = dl.status()
-            if status not in [MirrorStatus.STATUS_ARCHIVING, MirrorStatus.STATUS_EXTRACTING, MirrorStatus.STATUS_SPLITTING] and dl:
-                if req_status == 'down' and (status not in [MirrorStatus.STATUS_SEEDING,
-                                                            MirrorStatus.STATUS_UPLOADING,
-                                                            MirrorStatus.STATUS_CLONING]):
+            if dl:
+                status = dl.status()
+                if req_status == 'all':
                     return dl
-                elif req_status == 'up' and status == MirrorStatus.STATUS_UPLOADING:
+                if req_status == 'down' and status in [MirrorStatus.STATUS_DOWNLOADING,
+                                                         MirrorStatus.STATUS_WAITING,
+                                                         MirrorStatus.STATUS_PAUSE]:
                     return dl
-                elif req_status == 'clone' and status == MirrorStatus.STATUS_CLONING:
+                if req_status == 'up' and status == MirrorStatus.STATUS_UPLOADING:
                     return dl
-                elif req_status == 'seed' and status == MirrorStatus.STATUS_SEEDING:
+                if req_status == 'clone' and status == MirrorStatus.STATUS_CLONING:
                     return dl
-                elif req_status == 'all':
+                if req_status == 'seed' and status == MirrorStatus.STATUS_SEEDING:
+                    return dl
+                if req_status == 'split' and status == MirrorStatus.STATUS_SPLITTING:
+                    return dl
+                if req_status == 'extract' and status == MirrorStatus.STATUS_EXTRACTING:
+                    return dl
+                if req_status == 'archive' and status == MirrorStatus.STATUS_ARCHIVING:
                     return dl
     return None
 
@@ -148,19 +145,22 @@ def get_readable_message():
             msg += f"<b>  </b>\n"
             msg += f"\n\n<b>➦ File Name:</b> <code>{escape(str(download.name()))}</code>"
             msg += f"\n<b>➦ Status:</b> <i>{download.status()}</i>"
-            if download.status() not in [
-                MirrorStatus.STATUS_ARCHIVING,
-                MirrorStatus.STATUS_EXTRACTING,
-                MirrorStatus.STATUS_SPLITTING,
-                MirrorStatus.STATUS_SEEDING,
-            ]:
+            if download.status() not in [MirrorStatus.STATUS_SEEDING]:
                 msg += f"\n{get_progress_bar_string(download)}\n<b>★Progress:</b> {download.progress()}"
-                if download.status() == MirrorStatus.STATUS_CLONING:
-                    msg += f"\n<b>★Cloned:</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
-                elif download.status() == MirrorStatus.STATUS_UPLOADING:
-                    msg += f"\n<b>★Uploaded:</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
-                else:
+                if download.status() in [MirrorStatus.STATUS_DOWNLOADING,
+                                         MirrorStatus.STATUS_WAITING,
+                                         MirrorStatus.STATUS_PAUSE]:
                     msg += f"\n<b>★Downloaded:</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
+                elif download.status() == MirrorStatus.STATUS_UPLOADING:
+                    msg += f"\n<b>Uploaded:</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
+                elif download.status() == MirrorStatus.STATUS_CLONING:
+                    msg += f"\n<b>★Cloned:</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
+                elif download.status() == MirrorStatus.STATUS_ARCHIVING:
+                    msg += f"\n<b>★Archived:</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
+                elif download.status() == MirrorStatus.STATUS_EXTRACTING:
+                    msg += f"\n<b>★Extracted:</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
+                elif download.status() == MirrorStatus.STATUS_SPLITTING:
+                    msg += f"\n<b>★Splitted:</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
                 msg += f"\n<b>★Speed:</b> {download.speed()}\n<b>★Waiting Time:</b> {download.eta()}"
                 msg += f"\n<b>★Elapsed : </b>{get_readable_time(time() - download.message.date.timestamp())}"
                 msg += f'\n<b>★Req By :</b> <a href="https://t.me/c/{str(download.message.chat.id)[4:]}/{download.message.message_id}">{download.message.from_user.first_name}</a>'
@@ -175,7 +175,6 @@ def get_readable_message():
                            f" | <b>★Leechers:</b> {download.torrent_info().num_leechs}"
                 except:
                     pass
-                msg += f"\n<b>★To Cancel:</b> <code>/{BotCommands.CancelMirror} {download.gid()}</code>"
 
             elif download.status() == MirrorStatus.STATUS_SEEDING:
                 msg += f"\n<b>★Size: </b>{download.size()}"
@@ -366,5 +365,5 @@ def bot_sys_stats():
 """
     return stats
 dispatcher.add_handler(
-    CallbackQueryHandler(pop_up_stats, pattern="^" + str(THREE) + "$")
+    CallbackQueryHandler(pop_up_stats, pattern=f"^{str(THREE)}$")
 )
