@@ -62,10 +62,11 @@ def start(update, context):
     reply_markup = InlineKeyboardMarkup(buttons.build_menu(2))
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
         start_string = f'''
+        update.effective_message.reply_photo("https://telegra.ph/file/2f12ae9cab1f867310f93.jpg", start_string, parse_mode=ParseMode.MARKDOWN)
+        
 Welcome | WOODcraft service is ready for you
 Type /{BotCommands.HelpCommand} to get a list of available commands
 '''
-        update.effective_message.reply_photo("https://telegra.ph/file/2f12ae9cab1f867310f93.jpg", start_string, parse_mode=ParseMode.MARKDOWN)
         sendMarkup(start_string, context.bot, update.message, reply_markup)
     else:
         sendMarkup('Sorry, You cannot use me', context.bot, update.message, reply_markup)
