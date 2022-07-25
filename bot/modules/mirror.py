@@ -214,8 +214,10 @@ class MirrorListener:
         buttons = ButtonMaker()
         if not self.isPrivate and INCOMPLETE_TASK_NOTIFIER and DB_URI is not None:
             DbManger().rm_complete_task(self.message.link)
-        msg = f"<b>➦ ✤┅┅●❬ {TITLE_NAME} ❭●┅┅✤</b>"    
-        msg += f"<b>➦ File Name: </b><code>{escape(name)}</code>\n<b>➦ File Size: </b>{size}"
+        msg = f"<b>➦ ✤┅┅●❬ {TITLE_NAME} ❭●┅┅✤</b>"
+        msg += f"<b>➦</b>"     
+        msg += f"<b>➦ File Name: </b><code>{escape(name)}</code>\n<b>"
+        msg += f"<b>➦ File Size: </b>{size}"
         if self.isLeech:
             if BOT_PM:
                 bot_d = bot.get_me()
@@ -245,7 +247,8 @@ class MirrorListener:
             if ospath.isdir(f'{DOWNLOAD_DIR}{self.uid}/{name}'):
                 msg += f'\n<b>➦ SubFolders: </b>{folders}'
                 msg += f'\n<b>➦ Files: </b>{files}'
-            msg += f'\n\n<b>➦ Hey </b>{self.tag} <b>➦ Your file Successful</b>'
+            msg += f'\n\n<b>➦ Hey </b>{self.tag}'
+            msg += f'\n<b>➦ Your file Successful</b>'
             msg += f'\n<b>➦ It Tooks:</b> {get_readable_time(time() - self.message.date.timestamp())}'
             msg += f'\n\n<b>🍁 YOU using {TITLE_NAME}</b>'
             buttons = ButtonMaker()
