@@ -346,7 +346,7 @@ class GoogleDriveHelper:
                     LOGGER.info("Deleting cloned data from Drive...")
                     self.deletefile(durl)
                     return "your clone has been stopped and cloned data has been deleted!", "cancelled"
-                msg += f"<b>➦★ ✤┅┅●❬ {TITLE_NAME} ❭●┅┅✤</b>"
+                msg += f"<b>➦ ❬ ✤{TITLE_NAME} ❭✤</b>" 
                 msg += f"<b>  </b>\n"    
                 msg += f'<b>➦ Name: </b><code>{meta.get("name")}</code>'
                 msg += f'\n\n<b>➦ Size: </b>{get_readable_file_size(self.transferred_size)}'
@@ -363,7 +363,7 @@ class GoogleDriveHelper:
                     buttons.buildbutton("🍁 Index Link 🍁", url)
             else:
                 file = self.__copyFile(meta.get('id'), parent_id)
-                msg += f"<b>➦★ ✤┅┅●❬ {TITLE_NAME} ❭●┅┅✤</b>"
+                msg += f"<b>➦ ❬ ✤{TITLE_NAME} ❭✤</b>" 
                 msg += f"<b>  </b>\n"
                 msg += f'<b>➦ Name: </b><code>{file.get("name")}</code>'
                 durl = self.__G_DRIVE_BASE_DOWNLOAD_URL.format(file.get("id"))
@@ -703,14 +703,14 @@ class GoogleDriveHelper:
             mime_type = meta.get('mimeType')
             if mime_type == self.__G_DRIVE_DIR_MIME_TYPE:
                 self.__gDrive_directory(meta)
-                msg += f"<b>➦★ ✤┅┅●❬ {TITLE_NAME} ❭●┅┅✤</b>"
+                msg += f"<b>➦ ❬ ✤{TITLE_NAME} ❭✤</b>" 
                 msg += f"<b>  </b>\n"
                 msg += f'<b>➦ Name: </b><code>{name}</code>'
                 msg += f'\n\n<b>➦ Size: </b>{get_readable_file_size(self.__total_bytes)}'
                 msg += '\n\n<b>➦ Type: </b>Folder'
                 msg += f'\n<b>➦ SubFolders: </b>{self.__total_folders}'
             else:
-                msg += f"<b>➦★ ✤┅┅●❬ {TITLE_NAME} ❭●┅┅✤</b>"
+                msg += f"<b>➦ ❬ ✤{TITLE_NAME} ❭✤</b>" 
                 msg += f"<b>  </b>\n"
                 msg += f'<b>➦ Name: </b><code>{name}</code>'
                 if mime_type is None:
