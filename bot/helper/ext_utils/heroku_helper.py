@@ -66,7 +66,7 @@ def getHerokuDetails(h_api_key, h_app_name):
         stats += f"<b>➦ Used:</b> <code>{get_readable_time(quota_used)}</code>\n"
         stats += f"<b>➦ Available:</b> <code>{get_readable_time(quota_remain)}</code>\n"
         stats += f"<b>➦</b>\n"
-        stats += f'<b>➦★★ ✤┅┅●❬ {TITLE_NAME} ❭●┅┅✤</b>'
+        stats += f'<b>➦   ●❬ {TITLE_NAME} ❭●</b>'
         return stats
     except Exception as error:
         LOGGER.error(error)
