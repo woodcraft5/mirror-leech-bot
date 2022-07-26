@@ -57,7 +57,7 @@ def getHerokuDetails(h_api_key, h_app_name):
         path = f"/accounts/{user_id}/actions/get-quota"
         session = Session()
         result = (session.get(heroku_api + path, headers=headers)).json()
-        stats = "<b>★★★ ✤┅┅●❬ Heroku Dyno Stats ❭●┅┅✤</b>\n"
+        stats = "<b>➦  ●◄║𝐇𝐞𝐫𝐨𝐤𝐮 𝐃𝐲𝐧𝐨 𝐒𝐭𝐚𝐭𝐬║►●</b>\n"
         account_quota = result["account_quota"]
         quota_used = result["quota_used"]
         quota_remain = account_quota - quota_used
