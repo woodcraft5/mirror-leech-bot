@@ -166,12 +166,12 @@ def get_readable_message():
                 msg += f"\n<b>★Engine :</b> {download.eng()}"
                 try:
                     msg += f"\n<b>★Seeders:</b> {download.aria_download().num_seeders}" \
-                           f" | <b>★Peers:</b> {download.aria_download().connections}"
+                           f" | <b>Peers:</b> {download.aria_download().connections}"
                 except:
                     pass
                 try:
                     msg += f"\n<b>★Seeders:</b> {download.torrent_info().num_seeds}" \
-                           f" | <b>★Leechers:</b> {download.torrent_info().num_leechs}"
+                           f" | <b>Leechers:</b> {download.torrent_info().num_leechs}"
                 except:
                     pass
 
