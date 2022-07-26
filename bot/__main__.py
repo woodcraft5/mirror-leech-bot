@@ -48,7 +48,6 @@ def stats(update, context):
             f'<b>★</b>\n'
     if heroku := getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME):
         stats += heroku
-        stats += f'<b>★❬ {TITLE_NAME} ❭</b>'
     sendMessage(stats, context.bot, update.message)
 
 def start(update, context):
