@@ -7,7 +7,7 @@ from psutil import virtual_memory, cpu_percent, disk_usage
 from requests import head as rhead
 from urllib.request import urlopen
 from telegram import InlineKeyboardMarkup
-from bot import download_dict, download_dict_lock, STATUS_LIMIT, botStartTime, DOWNLOAD_DIR
+from bot import download_dict, download_dict_lock, STATUS_LIMIT, botStartTime, DOWNLOAD_DIR, TITLE_NAME
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.button_build import ButtonMaker
 import shutil
@@ -141,7 +141,7 @@ def get_readable_message():
                 globals()['COUNT'] -= STATUS_LIMIT
                 globals()['PAGE_NO'] -= 1
         for index, download in enumerate(list(download_dict.values())[COUNT:], start=1):
-            msg += f"<b>➦ ✤❬ {TITLE_NAME} ❭✤</b>"            
+            msg += f"<b>➦ ✤❬ {TITLE_NAME} ❭✤</b>"
             msg += f"\n\n<b>➦ File Name:</b> <code>{escape(str(download.name()))}</code>"
             msg += f"\n<b>➦ Status:</b> <i>{download.status()}</i>"
             if download.status() not in [MirrorStatus.STATUS_SEEDING]:
@@ -189,6 +189,8 @@ def get_readable_message():
             msg += "\n"
             if STATUS_LIMIT is not None and index == STATUS_LIMIT:
                 break
+        if len(msg) == 0:
+            return None, None
         bmsg = f"\n<b>★★★★★★★★★★★★★★★★★★★★★★★</b>"
         bmsg += f"\n<b>★Disk:</b> {get_readable_file_size(disk_usage(DOWNLOAD_DIR).free)}"
         bmsg += f"<b> | ★UPTM:</b> {get_readable_time(time() - botStartTime)}"
