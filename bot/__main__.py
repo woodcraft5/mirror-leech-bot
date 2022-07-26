@@ -7,7 +7,7 @@ from sys import executable
 from telegram import InlineKeyboardMarkup
 from telegram.ext import CommandHandler
 from bot import bot, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, LOGGER, Interval, INCOMPLETE_TASK_NOTIFIER,\
-                DB_URI, app, main_loop, AUTHORIZED_CHATS, TITLE_NAME
+                DB_URI, alive, app, main_loop, HEROKU_API_KEY, HEROKU_APP_NAME, AUTHORIZED_CHATS, TITLE_NAME
 from .helper.ext_utils.fs_utils import start_cleanup, clean_all, exit_clean_up
 from .helper.ext_utils.telegraph_helper import telegraph
 from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_time
@@ -33,13 +33,21 @@ def stats(update, context):
     cpuUsage = cpu_percent(interval=1)
     memory = virtual_memory()
     mem_p = memory.percent
-    stats = f'<b><i><u>{TITLE_NAME} ★Bot Statistics★</u></i></b>\n\n'\
-            f'<b>★ Updated ▬</b> <code>{last_commit}</code>\n'\
-            f'<b>★ Working For ▬</b> <code>{currentTime}</code>\n'\
-            f'<b>★ Total Disk ▬</b> <code>{total}</code> [{disk}% In use]\n'\
-            f'<b>★ Used ▬</b> <code>{used}</code> | <b>★ Free ▬</b> <code>{free}</code>\n'\
-            f'<b>★ T-Up ▬</b> <code>{sent}</code> | <b>★ T-Dn ▬</b> <code>{recv}</code>\n'\
-            f'<b>★ CPU Usage ▬</b> <code>{cpuUsage}</code>% | <b>★ RAM Usage ▬</b> <code>{mem_p}%</code>\n'
+    stats = f'<b>★★★ Bot Statistics ★</b>\n'\
+            f'<b>★</b>\n'\
+            f'<b>★Updated ●</b> <code>{last_commit}</code>\n'\
+            f'<b>★I am Working ●</b> <code>{currentTime}</code>\n'\
+            f'<b>★Total Disk ●</b> <code>{total}</code> [{disk}% In use]\n'\
+            f'<b>★Used ●</b> <code>{used}</code>\n'\
+            f'<b>★Free ●</b> <code>{free}</code>\n'\
+            f'<b>★T-Up ●</b> <code>{sent}</code>\n'\
+            f'<b>★T-Dn ●</b> <code>{recv}</code>\n'\
+            f'<b>★CPU Usage ●</b> <code>{cpuUsage}</code>%\n'\
+            f'<b>★RAM Usage ●</b> <code>{mem_p}%</code>\n'\
+            f'<b>★</b>\n'
+    if heroku := getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME):
+        stats += heroku
+        stats += f'<b>★❬ {TITLE_NAME} ❭</b>'
     sendMessage(stats, context.bot, update.message)
 
 def start(update, context):
@@ -226,9 +234,9 @@ def main():
                 if ospath.isfile(".restartmsg"):
                     with open(".restartmsg") as f:
                         chat_id, msg_id = map(int, f)
-                    msg = '✔️ Restarted successfully!'
+                    msg = 'Restarted successfully!'
                 else:
-                    msg = '✔️ Bot Restarted!'
+                    msg = 'Bot Restarted!'
                 for tag, links in data.items():
                      msg += f"\n\n{tag}: "
                      for index, link in enumerate(links, start=1):
