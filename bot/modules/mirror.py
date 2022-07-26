@@ -215,8 +215,7 @@ class MirrorListener:
         if not self.isPrivate and INCOMPLETE_TASK_NOTIFIER and DB_URI is not None:
             DbManger().rm_complete_task(self.message.link)
         msg += f"<b>➦ ✤❬ {TITLE_NAME} ❭✤</b>"    
-        msg += f"<b>➦ File Name: </b><code>{escape(name)}</code>\n"
-        msg += f"<b>➦ File Size: </b>{size}"
+        msg += f"<b>➦ File Name: </b><code>{escape(name)}</code>\n<b>➦ File Size: </b>{size}"
         if self.isLeech:
             if BOT_PM:
                 bot_d = bot.get_me()
@@ -226,14 +225,13 @@ class MirrorListener:
             msg += f'\n<b>➦ Total Files: </b>{folders}'
             if typ != 0:
                 msg += f'\n<b>➦ Corrupted Files: </b>{typ}'
-            msg += f'\n\n<b>➦ User </b>{self.tag}'
-            msg += f'\n<b>➦ Your file successfully...</b>'
+            msg += f'\n\n<b>➦ User </b>{self.tag} <b>➦ Your file successfully...</b>'
             msg += f'\n<b>➦ It Tooks:</b> {get_readable_time(time() - self.message.date.timestamp())}'
             msg += f'\n\n<b>➦ Repo-By ✤ {TITLE_NAME}</b>'
             if not files:
                 sendMessage(msg, self.bot, self.message)
             else:
-                fmsg = '\n<b>➦ This is your file:</b>\n'
+                fmsg = '\n<b>➦ Your Files Are:</b>\n'
                 for index, (link, name) in enumerate(files.items(), start=1):
                     fmsg += f"{index}. <a href='{link}'>{name}</a>\n"
                     if len(fmsg.encode() + msg.encode()) > 4000:
@@ -247,8 +245,7 @@ class MirrorListener:
             if ospath.isdir(f'{DOWNLOAD_DIR}{self.uid}/{name}'):
                 msg += f'\n<b>➦ SubFolders: </b>{folders}'
                 msg += f'\n<b>➦ Files: </b>{files}'
-            msg += f'\n\n<b>➦ User </b>{self.tag}'
-            msg += f'\n<b>➦ Your file successfully...</b>'
+            msg += f'\n\n<b>➦ User </b>{self.tag} <b>➦ Your file successfully...</b>'
             msg += f'\n<b>➦ It Tooks:</b> {get_readable_time(time() - self.message.date.timestamp())}'
             msg += f'\n\n<b>➦ Repo-By ✤ {TITLE_NAME}</b>'
             buttons = ButtonMaker()
