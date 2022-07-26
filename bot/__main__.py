@@ -47,10 +47,10 @@ def stats(update, context):
             f'<b>★CPU Usage ●</b> <code>{cpuUsage}</code>%\n'\
             f'<b>★RAM Usage ●</b> <code>{mem_p}%</code>\n'\
             f'<b>★</b>\n'
-    heroku = getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME)
-    if heroku: stats += heroku
+    if heroku := getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME):
+        stats += heroku
     else:
-               stats += f'<b>★★★ ✤┅┅●❬ {TITLE_NAME} ❭●┅┅✤</b>'
+        stats += f'<b>★❬ {TITLE_NAME} ❭</b>'    
     sendMessage(stats, context.bot, update.message)
 
 def start(update, context):
@@ -65,7 +65,6 @@ def start(update, context):
 Welcome | WOODcraft service is ready for you
 Type /{BotCommands.HelpCommand} to get a list of available commands
 '''
-        update.effective_message.reply_photo("https://telegra.ph/file/48fab66115573350043b5.jpg", start_string, parse_mode=ParseMode.MARKDOWN)
         sendMarkup(start_string, context.bot, update.message, reply_markup)
     else:
         sendMarkup('Sorry, You cannot use me', context.bot, update.message, reply_markup)
@@ -201,9 +200,9 @@ def main():
                 if ospath.isfile(".restartmsg"):
                     with open(".restartmsg") as f:
                         chat_id, msg_id = map(int, f)
-                    msg = 'Restarted successfully!'
+                    msg = '✔️Restarted successfully!'
                 else:
-                    msg = 'Bot Restarted!'
+                    msg = '✔️Bot Restarted!'
                 for tag, links in data.items():
                      msg += f"\n\n{tag}: "
                      for index, link in enumerate(links, start=1):
