@@ -227,13 +227,13 @@ class MirrorListener:
             msg += f'\n<b>➦ Total Files: </b>{folders}'
             if typ != 0:
                 msg += f'\n<b>➦ Corrupted Files: </b>{typ}'
-            msg += f'\n\n<b>➦ Hey </b>{self.tag} <b>➦ Your file Successful</b>'
+            msg += f'\n\n<b>➦ User </b>{self.tag} <b>➦ Your file successfully...</b>'
             msg += f'\n<b>➦ It Tooks:</b> {get_readable_time(time() - self.message.date.timestamp())}'
-            msg += f'\n\n<b>🍁 YOU using {TITLE_NAME}</b>'
+            msg += f'\n\n<b>➦ Repo-By ✤ {TITLE_NAME}</b>'
             if not files:
                 sendMessage(msg, self.bot, self.message)
             else:
-                fmsg = '\n<b>➦ This is your file:</b>'
+                fmsg = '\n<b>➦ Your Files Are:</b>'
                 for index, (link, name) in enumerate(files.items(), start=1):
                     fmsg += f"{index}. <a href='{link}'>{name}</a>\n"
                     if len(fmsg.encode() + msg.encode()) > 4000:
@@ -247,9 +247,9 @@ class MirrorListener:
             if ospath.isdir(f'{DOWNLOAD_DIR}{self.uid}/{name}'):
                 msg += f'\n<b>➦ SubFolders: </b>{folders}'
                 msg += f'\n<b>➦ Files: </b>{files}'
-            msg += f'\n\n<b>➦ Hey </b>{self.tag} <b>➦ Your file Successful</b>'
+            msg += f'\n\n<b>➦ User </b>{self.tag} <b>➦ Your file successfully...</b>'
             msg += f'\n<b>➦ It Tooks:</b> {get_readable_time(time() - self.message.date.timestamp())}'
-            msg += f'\n\n<b>🍁 YOU using {TITLE_NAME}</b>'
+            msg += f'\n\n<b>➦ Repo-By ✤ {TITLE_NAME}</b>'
             buttons = ButtonMaker()
             link = short_url(link)
             buttons.buildbutton("🌼 Drive Link 🌼", link)
