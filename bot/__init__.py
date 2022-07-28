@@ -526,6 +526,14 @@ except KeyError:
     log_info("CHANNEL_ID not provided! Using default id of @woodcraft_repo")
     FSUB_CHANNEL_ID = -1001115426030
 try:
+    CHAT_ID = getConfig("CHAT_ID")
+    if len(CHAT_ID) == 0:
+        raise KeyError
+    CHAT_ID = int(CHAT_ID)
+except KeyError:
+    log_info("CHAT_ID not provided! Using default id of @woodcraft_repo")
+    CHAT_ID = -1001701621693
+try:
     BOT_PM = getConfig('BOT_PM')
     BOT_PM = BOT_PM.lower() == 'true'
 except KeyError:
