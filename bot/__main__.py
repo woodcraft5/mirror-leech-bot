@@ -15,10 +15,11 @@ from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_tim
 from .helper.ext_utils.db_handler import DbManger
 from .helper.ext_utils.heroku_helper import getHerokuDetails
 from .helper.telegram_helper.bot_commands import BotCommands
-from .helper.telegram_helper.message_utils import sendMessage, sendMarkup, editMessage, sendLogFile
+from .helper.telegram_helper.message_utils import sendMessage, sendMarkup, editMessage, sendLogFile, auto_delete_message
 from .helper.telegram_helper.filters import CustomFilters
 from .helper.telegram_helper.button_build import ButtonMaker
 from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, delete, count, leech_settings, search, rss, qbselect
+from threading import Thread
 
 def stats(update, context):
     if ospath.exists('.git'):
@@ -49,7 +50,8 @@ def stats(update, context):
             f'<b>★</b>\n'
     if heroku := getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME):
         stats += heroku
-    sendMessage(stats, context.bot, update.message)
+    reply_message = sendMessage(stats, context.bot, update.message)
+    Thread(target=auto_delete_message, args=(context.bot, update.message, reply_message)).start()
 
 def start(update, context):
     buttons = ButtonMaker()
