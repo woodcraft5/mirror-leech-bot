@@ -64,7 +64,8 @@ Welcome | ✤◄ 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭 ►✤ Bot is ✔️Ready
 Type /{BotCommands.HelpCommand} to get a list of available commands
 '''
         update.message.reply_photo(IMAGE_URL, start_string, parse_mode=ParseMode.MARKDOWN)
-        start_string, context.bot, update.message, reply_markup)  
+        start_string, context.bot, update.message, reply_markup
+        sendMarkup( )
     else:
         sendMarkup('Sorry, You cannot use me', context.bot, update.message, reply_markup)
 
