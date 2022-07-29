@@ -14,10 +14,11 @@ from .helper.ext_utils.telegraph_helper import telegraph
 from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_time
 from .helper.ext_utils.db_handler import DbManger
 from .helper.telegram_helper.bot_commands import BotCommands
-from .helper.telegram_helper.message_utils import sendMessage, sendMarkup, editMessage, sendLogFile
+from .helper.telegram_helper.message_utils import sendMessage, sendMarkup, editMessage, sendLogFile, auto_delete_message
 from .helper.telegram_helper.filters import CustomFilters
 from .helper.telegram_helper.button_build import ButtonMaker
 from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, delete, count, leech_settings, search, rss, qbselect
+from threading import Thread
 
 def stats(update, context):
     if ospath.exists('.git'):
@@ -46,7 +47,8 @@ def stats(update, context):
             f'<b>★CPU Usage ●</b> <code>{cpuUsage}</code>%\n'\
             f'<b>★RAM Usage ●</b> <code>{mem_p}%</code>\n'\
             f'<b>★</b>\n'
-    sendMessage(stats, context.bot, update.message)
+    reply_message = sendMessage(stats, context.bot, update.message)
+    Thread(target=auto_delete_message, args=(context.bot, update.message, reply_message)).start()
 
 def start(update, context):
     buttons = ButtonMaker()
@@ -60,7 +62,7 @@ def start(update, context):
 Welcome | ✤◄ 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭 ►✤ Bot is ✔️Ready
 Type /{BotCommands.HelpCommand} to get a list of available commands
 '''
-        update.effective_message.reply_photo("https://telegra.ph/file/48fab66115573350043b5.jpg", parse_mode=ParseMode.MARKDOWN)
+        update.effective_message.reply_photo("https://telegra.ph/file/d2d65936765c436fa8835.jpg", parse_mode=ParseMode.MARKDOWN)
         sendMarkup(start_string, context.bot, update.message, reply_markup)
     else:
         sendMarkup('Sorry, You cannot use me', context.bot, update.message, reply_markup)
