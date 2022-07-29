@@ -51,7 +51,7 @@ def stats(update, context):
         stats += heroku
     sendMessage(stats, context.bot, update.message)
 
-def start(update):
+def start(update context):
     buttons = ButtonMaker()
     buttons.buildbutton("★Repo", "https://github.com/woodcraft5/mirror-leech-bot")
     buttons.buildbutton("★Group", "https://t.me/+mmlX62hc9M43YjI1")
@@ -64,7 +64,7 @@ Welcome | ✤◄ 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭 ►✤ Bot is ✔️Ready
 Type /{BotCommands.HelpCommand} to get a list of available commands
 '''
         update.effective_message.reply_photo(IMAGE_URL, start_string, parse_mode=ParseMode.MARKDOWN)
-        sendMarkup(start_string, context.bot, update.message, reply_markup)
+        sendMarkup(start_string, update.message, reply_markup)
     else:
         sendMarkup('Sorry, You cannot use me', context.bot, update.message, reply_markup)
 
