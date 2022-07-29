@@ -51,7 +51,7 @@ def stats(update, context):
         stats += heroku
     sendMessage(stats, context.bot, update.message)
 
-def start(update context):
+def start(update, context):
     buttons = ButtonMaker()
     buttons.buildbutton("★Repo", "https://github.com/woodcraft5/mirror-leech-bot")
     buttons.buildbutton("★Group", "https://t.me/+mmlX62hc9M43YjI1")
