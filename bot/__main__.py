@@ -64,8 +64,8 @@ def start(update, context):
 Welcome | ✤◄ 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭 ►✤ Bot is ✔️Ready
 Type /{BotCommands.HelpCommand} to get a list of available commands
 '''
-        update.effective_message.reply_photo(IMAGE_URL, start_string, parse_mode=ParseMode.MARKDOWN)
-        sendMarkup(context.bot, update.message, start_string, reply_markup)
+        update.effective_message.reply_photo(IMAGE_URL, parse_mode=ParseMode.MARKDOWN)
+        sendMarkup(start_string, context.bot, update.message, reply_markup)
     else:
         sendMarkup('Sorry, You cannot use me', context.bot, update.message, reply_markup)
 
