@@ -254,7 +254,7 @@ def get_readable_message():
         if len(msg) == 0:
             return None, None
         bmsg = f"\n<b>✫▬✫▬✫▬✫▬✫▬✫▬✫▬✫</b>"
-        bmsg += f"\n<b>✫   ●◄║ 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭 ║►●   ✫</b>"
+        bmsg += f"\n<b>✫   ●◄║ 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭 ║►●  ✫</b>"
         bmsg += f"\n<b>✫▬✫▬✫▬✫▬✫▬✫▬✫▬✫</b>"
         bmsg += f"\n<b>➦ Disk ●</b> {get_readable_file_size(disk_usage(DOWNLOAD_DIR).free)}"
         bmsg += f"<b> | ➦ UPTM ●</b> {get_readable_time(time() - botStartTime)}"
@@ -427,14 +427,14 @@ def bot_sys_stats():
     free = get_readable_file_size(free)
     recv = get_readable_file_size(psutil.net_io_counters().bytes_recv)
     sent = get_readable_file_size(psutil.net_io_counters().bytes_sent)
-    stats = "♚ Bot Statistics ♚"
+    stats = "✿ Bot Statistics ✿"
     stats += f"""
 
-★Bot Uptime: {currentTime}
-★T-DN: {recv} | ★T-UP: {sent}
-★CPU: {cpu}% | ★RAM: {mem}%
-★Disk: {total} | ★Free: {free}
-★Used: [{disk}%] ★is {used}
+★Bot Uptime● {currentTime}
+★T-DN● {recv} | ★T-UP● {sent}
+★CPU● {cpu}% | ★RAM● {mem}%
+★Disk● {total} | ★Free● {free}
+★Used● [{disk}%] ★is● {used}
 
 ★Powered By ➥ 𝐁𝐲 - 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭
 """
