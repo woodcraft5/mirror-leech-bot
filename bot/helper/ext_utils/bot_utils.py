@@ -255,7 +255,7 @@ def get_readable_message():
             return None, None
         bmsg = f"\n<b>✫▬✫▬✫▬✫▬✫▬✫▬✫▬✫</b>"
         bmsg += f"\n<b>✫   ●◄║ 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭 ║►●   ✫</b>"
-        bmsg = f"\n<b>✫▬✫▬✫▬✫▬✫▬✫▬✫▬✫</b>"
+        bmsg += f"\n<b>✫▬✫▬✫▬✫▬✫▬✫▬✫▬✫</b>"
         bmsg += f"\n<b>➦ Disk ●</b> {get_readable_file_size(disk_usage(DOWNLOAD_DIR).free)}"
         bmsg += f"<b> | ➦ UPTM ●</b> {get_readable_time(time() - botStartTime)}"
         dlspeed_bytes = 0
