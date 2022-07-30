@@ -49,7 +49,7 @@ def stats(update, context):
             f'<b>★</b>\n'        
     if heroku := getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME):
         stats += heroku
-        update.effective_message.reply_photo(IMAGE_URL, stats, parse_mode=ParseMode.MARKDOWN)   
+        update.effective_message.reply_photo(IMAGE_URL, parse_mode=ParseMode.MARKDOWN)   
     reply_message = sendMessage(stats, context.bot, update.message)
     Thread(target=auto_delete_message, args=(context.bot, update.message, reply_message)).start()
 
