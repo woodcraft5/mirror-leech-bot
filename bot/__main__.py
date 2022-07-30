@@ -48,9 +48,8 @@ def stats(update, context):
             f'<b>★RAM Usage ●</b> <code>{mem_p}%</code>\n'\
             f'<b>★</b>\n'        
     if heroku := getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME):
-        stats += heroku
-        update.effective_message.reply_photo(IMAGE_URL, parse_mode=ParseMode.MARKDOWN)   
-    reply_message = sendMessage(stats, context.bot, update.message)
+        stats += heroku   
+    reply_message = sendMessage(stats, IMAGE_URL, context.bot, update.message)    
     Thread(target=auto_delete_message, args=(context.bot, update.message, reply_message)).start()
 
 def start(update, context):
