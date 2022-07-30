@@ -47,6 +47,7 @@ def stats(update, context):
             f'<b>★CPU Usage ●</b> <code>{cpuUsage}</code>%\n'\
             f'<b>★RAM Usage ●</b> <code>{mem_p}%</code>\n'\
             f'<b>★</b>\n'
+    update.effective_message.reply_photo(IMAGE_URL, stats, parse_mode=ParseMode.HTML)        
     if heroku := getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME):
         stats += heroku
     reply_message = sendMessage(stats, context.bot, update.message)
@@ -63,11 +64,11 @@ def start(update, context):
         start_string = f'''
 Welcome | ✤◄ 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭 ►✤ Bot is ✔️Ready
 Type /{BotCommands.HelpCommand} to get a list of available commands
-'''
-        update.effective_message.reply_photo(IMAGE_URL, parse_mode=ParseMode.MARKDOWN)
+'''   
         sendMarkup(start_string, context.bot, update.message, reply_markup)
     else:
-        sendMarkup('Sorry, You cannot use me', context.bot, update.message, reply_markup)
+        update.effective_message.reply_photo(IMAGE_URL, start_string, parse_mode=ParseMode.MARKDOWN, reply_markup=reply_markup)    
+        sendMarkup('Sorry, You cannot use me', context.bot, update.message, reply_markup)    
 
 def restart(update, context):
     restart_message = sendMessage("Restarting...", context.bot, update.message)
