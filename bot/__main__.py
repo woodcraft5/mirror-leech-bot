@@ -35,6 +35,7 @@ def stats(update, context):
     cpuUsage = cpu_percent(interval=1)
     memory = virtual_memory()
     mem_p = memory.percent
+    update.effective_message.reply_photo(IMAGE_URL, stats, parse_mode=ParseMode.HTML)
     stats = f'<b>★★★ Bot Statistics ★</b>\n'\
             f'<b>★</b>\n'\
             f'<b>★Updated ●</b> <code>{last_commit}</code>\n'\
@@ -48,8 +49,7 @@ def stats(update, context):
             f'<b>★RAM Usage ●</b> <code>{mem_p}%</code>\n'\
             f'<b>★</b>\n'        
     if heroku := getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME):
-        stats += heroku
-        update.effective_message.reply_photo(IMAGE_URL, parse_mode=ParseMode.HTML)
+        stats += heroku   
     reply_message = sendMessage(stats, context.bot, update.message)
     Thread(target=auto_delete_message, args=(context.bot, update.message, reply_message)).start()
 
