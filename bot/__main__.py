@@ -47,7 +47,7 @@ def stats(update, context):
             f'<b>★CPU Usage ●</b> <code>{cpuUsage}</code>%\n'\
             f'<b>★RAM Usage ●</b> <code>{mem_p}%</code>\n'\
             f'<b>★</b>\n'
-    update.effective_message.reply_photo(IMAGE_URL, stats, parse_mode=ParseMode.HTML)        
+    update.effective_message.reply_photo(IMAGE_URL, parse_mode=ParseMode.HTML)        
     if heroku := getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME):
         stats += heroku
     reply_message = sendMessage(stats, context.bot, update.message)
