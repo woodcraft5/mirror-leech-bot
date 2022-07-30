@@ -35,7 +35,7 @@ def stats(update, context):
     cpuUsage = cpu_percent(interval=1)
     memory = virtual_memory()
     mem_p = memory.percent
-    update.effective_message.reply_photo(IMAGE_URL, stats, parse_mode=ParseMode.HTML)
+    stats +=update.effective_message.reply_photo(IMAGE_URL, stats, parse_mode=ParseMode.MARKDOWN)
     stats = f'<b>★★★ Bot Statistics ★</b>\n'\
             f'<b>★</b>\n'\
             f'<b>★Updated ●</b> <code>{last_commit}</code>\n'\
