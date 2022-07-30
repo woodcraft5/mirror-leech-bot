@@ -1,11 +1,12 @@
 from re import match as re_match, findall as re_findall
 from threading import Thread, Event
 from time import time
+from telegram import ParseMode
 from math import ceil
 from html import escape
 from requests import head as rhead
 from urllib.request import urlopen
-from bot import download_dict, download_dict_lock, STATUS_LIMIT, botStartTime, DOWNLOAD_DIR
+from bot import download_dict, download_dict_lock, STATUS_LIMIT, botStartTime, IMAGE_URL, DOWNLOAD_DIR
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.button_build import ButtonMaker
 import shutil
@@ -203,6 +204,7 @@ def get_readable_message():
                 globals()['COUNT'] -= STATUS_LIMIT
                 globals()['PAGE_NO'] -= 1
         for index, download in enumerate(list(download_dict.values())[COUNT:], start=1):
+            msg += f"\n\n<b>update.effective_message.reply_photo(IMAGE_URL, start_string, parse_mode=ParseMode.MARKDOWN, reply_markup=reply_markup)"
             msg += f"\n\n<b>➦ File Name:</b> <code>{escape(str(download.name()))}</code>"
             msg += f"\n<b>➦ Status:</b> <i>{download.status()}</i>"
             if download.status() not in [MirrorStatus.STATUS_SEEDING]:
