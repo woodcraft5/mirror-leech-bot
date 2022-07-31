@@ -553,9 +553,9 @@ except KeyError:
 try:
     IMAGE_URL = getConfig('IMAGE_URL')
     if len(IMAGE_URL) == 0:
-        IMAGE_URL = ('https://telegra.ph/file/d2d65936765c436fa8835.jpg')
+        IMAGE_URL = ('https://telegra.ph/file/cd07902ef9ebd158d7043.jpg')
 except KeyError:
-    IMAGE_URL = ('https://telegra.ph/file/d2d65936765c436fa8835.jpg')    
+    IMAGE_URL = ('https://telegra.ph/file/cd07902ef9ebd158d7043.jpg')    
 try:
     TOKEN_PICKLE_URL = getConfig('TOKEN_PICKLE_URL')
     if len(TOKEN_PICKLE_URL) == 0:
