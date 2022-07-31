@@ -246,7 +246,7 @@ class MirrorListener:
                 msg += f'\n<b>➦ SubFolders ●</b>{folders}'
                 msg += f'\n<b>➦ Files ●</b>{files}'
             msg += f'\n\n<b>➦ User ●</b>{self.tag} <b>'
-            msg += f'\n\<b>➦ Successfully...</b>'
+            msg += f'\n<b>➦ Successfully...</b>'
             msg += f'\n<b>➦ It Tooks ●</b> {get_readable_time(time() - self.message.date.timestamp())}'
             msg += f'\n\n<b>➦ Repo-By ✤ {TITLE_NAME}</b>'
             buttons = ButtonMaker()
