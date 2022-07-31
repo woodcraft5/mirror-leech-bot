@@ -543,6 +543,16 @@ try:
 except KeyError:
     IMAGE_URL = ('https://telegra.ph/file/d2d65936765c436fa8835.jpg')
 try:
+    ANILIST_ENABLED = getConfig("ANILIST_ENABLED")
+    ANILIST_ENABLED = ANILIST_ENABLED.lower() == "true"
+except:
+    ANILIST_ENABLED = False    
+try:
+    MEDIAINFO_ENABLED = getConfig("MEDIAINFO_ENABLED")
+    MEDIAINFO_ENABLED = MEDIAINFO_ENABLED.lower() == "true"
+except:
+    MEDIAINFO_ENABLED = False    
+try:
     TOKEN_PICKLE_URL = getConfig('TOKEN_PICKLE_URL')
     if len(TOKEN_PICKLE_URL) == 0:
         raise KeyError
