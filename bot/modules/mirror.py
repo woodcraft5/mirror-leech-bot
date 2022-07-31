@@ -224,7 +224,7 @@ class MirrorListener:
             msg += f'\n<b>➦ Total Files ●</b>{folders}'
             if typ != 0:
                 msg += f'\n<b>➦ Corrupted Files ●</b>{typ}'
-            msg += f'\n\n<b>➦ User ●</b>{self.tag} <b>➦ Your file successfully...</b>'
+            msg += f'\n\n<b>➦ User ●</b>{self.tag} <b>➦ Successfully...</b>'
             msg += f'\n<b>➦ It Tooks ●</b> {get_readable_time(time() - self.message.date.timestamp())}'
             msg += f'\n\n<b>➦ Repo-By ✤ {TITLE_NAME}</b>'
             if not files:
@@ -244,7 +244,7 @@ class MirrorListener:
             if ospath.isdir(f'{DOWNLOAD_DIR}{self.uid}/{name}'):
                 msg += f'\n<b>➦ SubFolders ●</b>{folders}'
                 msg += f'\n<b>➦ Files ●</b>{files}'
-            msg += f'\n\n<b>➦ User ●</b>{self.tag} <b>➦ Your file successfully...</b>'
+            msg += f'\n\n<b>➦ User ●</b>{self.tag} <b>➦ Successfully...</b>'
             msg += f'\n<b>➦ It Tooks ●</b> {get_readable_time(time() - self.message.date.timestamp())}'
             msg += f'\n\n<b>➦ Repo-By ✤ {TITLE_NAME}</b>'
             buttons = ButtonMaker()
@@ -347,7 +347,7 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
 
     if BOT_PM and message.chat.type != 'private':
         try:
-            msg1 = f'Added your Requested link to Download !\nWill send here once done.'
+            msg1 = f'⏳Added your Requested link to Download !\nWill send here once done.✔️'
             send = bot.sendMessage(message.from_user.id, text=msg1)
         except Exception as e:
             LOGGER.warning(e)
