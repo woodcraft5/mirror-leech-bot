@@ -41,8 +41,6 @@ class _BotCommands:
         self.QbUnzipLeechCommand = f'qbunzipleech{CMD_INDEX}'
         self.QbZipLeechCommand = f'qbzipleech{CMD_INDEX}'
         self.LeechWatchCommand = f'leechwatch{CMD_INDEX}'
-        self.MediaInfoCommand = getCommand('MEDIAINFO_COMMAND', f'mediainfo{CMD_INDEX}')
-        self.HashCommand = getCommand('HASH_COMMAND', f'hash{CMD_INDEX}')
         self.LeechZipWatchCommand = f'leechzipwatch{CMD_INDEX}'
         self.QbSelectCommand = f'qbsel{CMD_INDEX}'
         self.RssListCommand = f'rsslist{CMD_INDEX}'
