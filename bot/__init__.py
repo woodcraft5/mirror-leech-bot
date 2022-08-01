@@ -526,6 +526,20 @@ except KeyError:
     log_info("CHANNEL_ID not provided! Using default id of @woodcraft_repo")
     FSUB_CHANNEL_ID = -1001115426030
 try:
+    AUTO_MUTE = getConfig('AUTO_MUTE')
+    AUTO_MUTE = AUTO_MUTE.lower() == 'true'
+except:
+    AUTO_MUTE = False
+    LOGGER.info("Auto MUTE is disabled")
+try:
+    CHAT_ID = getConfig("CHAT_ID")
+    if len(CHAT_ID) == 0:
+        raise KeyError
+    CHAT_ID = int(CHAT_ID)
+except KeyError:
+    log_info("CHAT_ID not provided! AUTO_MUTE won't work properly.")
+    CHAT_ID = -1001701621693
+try:
     BOT_PM = getConfig('BOT_PM')
     BOT_PM = BOT_PM.lower() == 'true'
 except KeyError:
@@ -539,19 +553,9 @@ except KeyError:
 try:
     IMAGE_URL = getConfig('IMAGE_URL')
     if len(IMAGE_URL) == 0:
-        IMAGE_URL = ('https://telegra.ph/file/d2d65936765c436fa8835.jpg')
+        IMAGE_URL = ('https://telegra.ph/file/cd07902ef9ebd158d7043.jpg')
 except KeyError:
-    IMAGE_URL = ('https://telegra.ph/file/d2d65936765c436fa8835.jpg')
-try:
-    ANILIST_ENABLED = getConfig("ANILIST_ENABLED")
-    ANILIST_ENABLED = ANILIST_ENABLED.lower() == "true"
-except:
-    ANILIST_ENABLED = False    
-try:
-    MEDIAINFO_ENABLED = getConfig("MEDIAINFO_ENABLED")
-    MEDIAINFO_ENABLED = MEDIAINFO_ENABLED.lower() == "true"
-except:
-    MEDIAINFO_ENABLED = False    
+    IMAGE_URL = ('https://telegra.ph/file/cd07902ef9ebd158d7043.jpg')    
 try:
     TOKEN_PICKLE_URL = getConfig('TOKEN_PICKLE_URL')
     if len(TOKEN_PICKLE_URL) == 0:
