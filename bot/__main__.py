@@ -8,17 +8,18 @@ from sys import executable
 from telegram import InlineKeyboardMarkup
 from telegram.ext import CommandHandler
 from bot import bot, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, LOGGER, Interval, INCOMPLETE_TASK_NOTIFIER,\
-                DB_URI, alive, app, main_loop, HEROKU_API_KEY, HEROKU_APP_NAME, AUTHORIZED_CHATS, TITLE_NAME, IMAGE_URL, SET_BOT_COMMANDS
+                DB_URI, alive, app, main_loop, HEROKU_API_KEY, HEROKU_APP_NAME, AUTHORIZED_CHATS, TITLE_NAME, IMAGE_URL
 from .helper.ext_utils.fs_utils import start_cleanup, clean_all, exit_clean_up
 from .helper.ext_utils.telegraph_helper import telegraph
 from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_time
 from .helper.ext_utils.db_handler import DbManger
 from .helper.ext_utils.heroku_helper import getHerokuDetails
 from .helper.telegram_helper.bot_commands import BotCommands
-from .helper.telegram_helper.message_utils import sendMessage, sendMarkup, editMessage, sendLogFile
+from .helper.telegram_helper.message_utils import sendMessage, sendMarkup, editMessage, sendLogFile, auto_delete_message
 from .helper.telegram_helper.filters import CustomFilters
 from .helper.telegram_helper.button_build import ButtonMaker
-from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, delete, count, leech_settings, search, rss, qbselect, anilist, mediainfo, hash
+from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, delete, count, leech_settings, search, rss, qbselect
+from threading import Thread
 
 def stats(update, context):
     if ospath.exists('.git'):
@@ -46,10 +47,10 @@ def stats(update, context):
             f'<b>★T-Dn ●</b> <code>{recv}</code>\n'\
             f'<b>★CPU Usage ●</b> <code>{cpuUsage}</code>%\n'\
             f'<b>★RAM Usage ●</b> <code>{mem_p}%</code>\n'\
-            f'<b>★</b>\n'        
+            f'<b>★</b>\n'
     if heroku := getHerokuDetails(HEROKU_API_KEY, HEROKU_APP_NAME):
-        stats += heroku   
-    reply_message = sendMessage(stats, context.bot, update.message)    
+        stats += heroku
+    reply_message = sendMessage(stats, context.bot, update.message)
     Thread(target=auto_delete_message, args=(context.bot, update.message, reply_message)).start()
 
 def start(update, context):
@@ -66,7 +67,7 @@ Type /{BotCommands.HelpCommand} to get a list of available commands
 '''
         update.effective_message.reply_photo(IMAGE_URL, start_string, parse_mode=ParseMode.MARKDOWN, reply_markup=reply_markup)
     else:        
-        sendMarkup('Sorry, You cannot use me', context.bot, update.message, reply_markup)    
+        sendMarkup('Sorry, You cannot use me', context.bot, update.message, reply_markup)
 
 def restart(update, context):
     restart_message = sendMessage("Restarting...", context.bot, update.message)
