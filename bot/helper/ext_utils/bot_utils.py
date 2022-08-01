@@ -130,6 +130,16 @@ def get_progress_bar_string(status):
     p_str = f"➥『{p_str}』"
     return p_str
 
+def auto_delete_message(bot, cmd_message: Message, bot_message: Message):
+    if AUTO_DELETE_MESSAGE_DURATION != -1:
+        sleep(AUTO_DELETE_MESSAGE_DURATION)
+        try:
+            # Skip if None is passed meaning we don't want to delete bot xor cmd message
+            deleteMessage(bot, cmd_message)
+            deleteMessage(bot, bot_message)
+        except AttributeError:
+            pass
+
 def editMessage(text: str, message: Message, reply_markup=None):
     try:
         bot.editMessageText(text=text, message_id=message.message_id,
@@ -193,59 +203,61 @@ def get_readable_message():
                 globals()['COUNT'] -= STATUS_LIMIT
                 globals()['PAGE_NO'] -= 1
         for index, download in enumerate(list(download_dict.values())[COUNT:], start=1):
-            msg += f"\n\n<b>➦ File Name:</b> <code>{escape(str(download.name()))}</code>"
-            msg += f"\n<b>➦ Status:</b> <i>{download.status()}</i>"
+            msg += f"\n\n<b>➦ File Name ●</b> <code>{escape(str(download.name()))}</code>"
+            msg += f"\n<b>➦ Status ●</b> <i>{download.status()}</i>"
             if download.status() not in [MirrorStatus.STATUS_SEEDING]:
-                msg += f"\n{get_progress_bar_string(download)}\n<b>★Progress:</b> {download.progress()}"
+                msg += f"\n{get_progress_bar_string(download)}\n<b>★Progress ●</b> {download.progress()}"
                 if download.status() in [MirrorStatus.STATUS_DOWNLOADING,
                                          MirrorStatus.STATUS_WAITING,
                                          MirrorStatus.STATUS_PAUSE]:
-                    msg += f"\n<b>★Downloaded:</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
+                    msg += f"\n<b>★Downloaded ●</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
                 elif download.status() == MirrorStatus.STATUS_UPLOADING:
-                    msg += f"\n<b>★Uploaded:</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
+                    msg += f"\n<b>★Uploaded ●</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
                 elif download.status() == MirrorStatus.STATUS_CLONING:
-                    msg += f"\n<b>★Cloned:</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
+                    msg += f"\n<b>★Cloned ●</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
                 elif download.status() == MirrorStatus.STATUS_ARCHIVING:
-                    msg += f"\n<b>★Archived:</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
+                    msg += f"\n<b>★Archived ●</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
                 elif download.status() == MirrorStatus.STATUS_EXTRACTING:
-                    msg += f"\n<b>★Extracted:</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
+                    msg += f"\n<b>★Extracted ●</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
                 elif download.status() == MirrorStatus.STATUS_SPLITTING:
-                    msg += f"\n<b>★Splitted:</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
-                msg += f"\n<b>★Speed:</b> {download.speed()}\n<b>★Waiting Time:</b> {download.eta()}"
-                msg += f"\n<b>★Elapsed : </b>{get_readable_time(time() - download.message.date.timestamp())}"
-                msg += f'\n<b>★ User :</b> <a href="https://t.me/c/{str(download.message.chat.id)[4:]}/{download.message.message_id}">{download.message.from_user.first_name}</a>'
-                msg += f"\n<b>★Engine :</b> {download.eng()}"
+                    msg += f"\n<b>★Splitted ●</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
+                msg += f"\n<b>★Speed ●</b> {download.speed()}\n<b>★Waiting Time ●</b> {download.eta()}"
+                msg += f"\n<b>★Elapsed ●</b>{get_readable_time(time() - download.message.date.timestamp())}"
+                msg += f'\n<b>★ User ●</b> <a href="https://t.me/c/{str(download.message.chat.id)[4:]}/{download.message.message_id}">{download.message.from_user.first_name}</a>'
+                msg += f"\n<b>★Engine ●</b> {download.eng()}"
                 try:
-                    msg += f"\n<b>★Seeders:</b> {download.aria_download().num_seeders}" \
+                    msg += f"\n<b>★Seeders ●</b> {download.aria_download().num_seeders}" \
                            f" | <b>Peers:</b> {download.aria_download().connections}"
                 except:
                     pass
                 try:
-                    msg += f"\n<b>★Seeders:</b> {download.torrent_info().num_seeds}" \
+                    msg += f"\n<b>★Seeders ●</b> {download.torrent_info().num_seeds}" \
                            f" | <b>Leechers:</b> {download.torrent_info().num_leechs}"
                 except:
                     pass
 
             elif download.status() == MirrorStatus.STATUS_SEEDING:
-                msg += f"\n<b>★Size: </b>{download.size()}"
-                msg += f"\n<b>★Engine:</b> <code>qBittorrent v4.4.2</code>"
-                msg += f"\n<b>★Speed: </b>{get_readable_file_size(download.torrent_info().upspeed)}/s"
-                msg += f" | <b>★Uploaded: </b>{get_readable_file_size(download.torrent_info().uploaded)}"
-                msg += f"\n<b>★Ratio: </b>{round(download.torrent_info().ratio, 3)}"
-                msg += f" | <b>★Time: </b>{get_readable_time(download.torrent_info().seeding_time)}"
+                msg += f"\n<b>★Size ●</b>{download.size()}"
+                msg += f"\n<b>★Engine ●</b> <code>qBittorrent v4.4.2</code>"
+                msg += f"\n<b>★Speed ●</b>{get_readable_file_size(download.torrent_info().upspeed)}/s"
+                msg += f" | <b>★Uploaded ●</b>{get_readable_file_size(download.torrent_info().uploaded)}"
+                msg += f"\n<b>★Ratio ●</b>{round(download.torrent_info().ratio, 3)}"
+                msg += f" | <b>★Time ●</b>{get_readable_time(download.torrent_info().seeding_time)}"
             else:
-                msg += f"\n<b>★Size: </b>{download.size()}"
-                msg += f"\n<b>★Engine :</b> {download.eng()}"
-            msg += f"\n<b>★To Cancel: </b><code>/{BotCommands.CancelMirror} {download.gid()}</code>"
+                msg += f"\n<b>★Size ●</b>{download.size()}"
+                msg += f"\n<b>★Engine ●</b> {download.eng()}"
+            msg += f"\n<b>★To Cancel ●</b><code>/{BotCommands.CancelMirror} {download.gid()}</code>"
+            msg += f"\n<b>★★★★★★★★★★★★★★★★★★★</b>"
             msg += "\n"
             if STATUS_LIMIT is not None and index == STATUS_LIMIT:
                 break
         if len(msg) == 0:
             return None, None
-        bmsg = f"\n<b>★★★★★★★★★★★★★★★★★★★</b>"
-        bmsg += f"\n<b>➦    ●◄║ 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭 ║►●</b>"
-        bmsg += f"\n<b>★Disk:</b> {get_readable_file_size(disk_usage(DOWNLOAD_DIR).free)}"
-        bmsg += f"<b> | ★UPTM:</b> {get_readable_time(time() - botStartTime)}"
+        bmsg = f"\n<b>✫▬✫▬✫▬✫▬✫▬✫▬✫▬✫</b>"
+        bmsg += f"\n<b>✫   ●◄║ 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭 ║►● ✫</b>"
+        bmsg += f"\n<b>✫▬✫▬✫▬✫▬✫▬✫▬✫▬✫</b>"
+        bmsg += f"\n<b>➦ Disk ●</b> {get_readable_file_size(disk_usage(DOWNLOAD_DIR).free)}"
+        bmsg += f"<b> | ➦ UPTM ●</b> {get_readable_time(time() - botStartTime)}"
         dlspeed_bytes = 0
         upspeed_bytes = 0
         for download in list(download_dict.values()):
@@ -260,20 +272,22 @@ def get_readable_message():
                     upspeed_bytes += float(spd.split('K')[0]) * 1024
                 elif 'MB/s' in spd:
                     upspeed_bytes += float(spd.split('M')[0]) * 1048576
-        bmsg += f"\n<b>➦ DN:</b> {get_readable_file_size(dlspeed_bytes)}/s<b> | ➦ UP:</b> {get_readable_file_size(upspeed_bytes)}/s"
+        bmsg += f"\n<b>➦ DN ▼</b> {get_readable_file_size(dlspeed_bytes)}/s<b> | ➦ UP ▲</b> {get_readable_file_size(upspeed_bytes)}/s"
 
         buttons = ButtonMaker()
-        buttons.sbutton("◄ Statistics ►", str(THREE))
         buttons.sbutton("◄ Refresh ►", str(ONE))
         buttons.sbutton("◄ Close ►", str(TWO))
-        sbutton = InlineKeyboardMarkup(buttons.build_menu(3))
+        buttons.sbutton("◄ Statistics ►", str(THREE))
+        sbutton = InlineKeyboardMarkup(buttons.build_menu(2))
 
         if STATUS_LIMIT is not None and tasks > STATUS_LIMIT:
-            msg += f"\n<b>➦ Total Tasks:</b> {tasks}\n"
+            msg += f"\n<b>➦ Total Tasks ●</b> {tasks}\n"
             buttons = ButtonMaker()
-            buttons.sbutton("➦ Prev", "status pre")
+            buttons.sbutton("⇦ Prev", "status pre")
             buttons.sbutton(f"{PAGE_NO}/{pages}", str(THREE))
-            buttons.sbutton("➦ Next", "status nex")
+            buttons.sbutton("Next ⇨", "status nex")
+            buttons.sbutton("◄ Refresh ►", str(ONE))
+            buttons.sbutton("◄ Close ►", str(TWO))
             button = InlineKeyboardMarkup(buttons.build_menu(3))
 
             return msg + bmsg, button
@@ -395,7 +409,7 @@ def close(update, context):
     if admins:
         delete_all_messages()
     else:
-        query.answer(text="You Don't Have Admin Rights!", show_alert=True)
+        query.answer(text="Sorry, only Admins can close !", show_alert=True)
 
 def pop_up_stats(update, context):
     query = update.callback_query
@@ -413,14 +427,14 @@ def bot_sys_stats():
     free = get_readable_file_size(free)
     recv = get_readable_file_size(psutil.net_io_counters().bytes_recv)
     sent = get_readable_file_size(psutil.net_io_counters().bytes_sent)
-    stats = "♚ Bot Statistics ♚"
+    stats = "✿ Bot Statistics ✿"
     stats += f"""
 
-★Bot Uptime: {currentTime}
-★T-DN: {recv} | ★T-UP: {sent}
-★CPU: {cpu}% | ★RAM: {mem}%
-★Disk: {total} | ★Free: {free}
-★Used: [{disk}%] ★is {used}
+★Bot Uptime● {currentTime}
+★T-DN● {recv} | ★T-UP● {sent}
+★CPU● {cpu}% | ★RAM● {mem}%
+★Disk● {total} | ★Free● {free}
+★Used● [{disk}%] ★is● {used}
 
 ★Powered By ➥ 𝐁𝐲 - 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭
 """
