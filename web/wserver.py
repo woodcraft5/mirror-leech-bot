@@ -21,7 +21,7 @@ page = """
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Torrent File Selector</title>
-    <link rel="icon" href="https://telegra.ph/file/43af672249c94053356c7.jpg" type="image/jpg">
+    <link rel="icon" href="https://telegra.ph/file/2e39631d147d13883c88c.jpg" type="image/jpg">
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
@@ -196,11 +196,11 @@ function s_validate() {
     <header>
       <div class="brand">
         <img
-          src="https://telegra.ph/file/43af672249c94053356c7.jpg"
+          src="https://telegra.ph/file/2e39631d147d13883c88c.jpg"
           alt="logo"
         />
         <a href="https://t.me/woodcraft5">
-          <h2 class="name">Bittorrent Selection</h2>
+          <h2 class="name">Bittorrent Selection-WOODcraft</h2>
         </a>
       </div>
       <div class="social">
@@ -385,7 +385,7 @@ code_page = """
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Torrent Code Checker</title>
-    <link rel="icon" href="https://telegra.ph/file/43af672249c94053356c7.jpg" type="image/jpg">
+    <link rel="icon" href="https://telegra.ph/file/2e39631d147d13883c88c.jpg" type="image/jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -557,11 +557,11 @@ section span{
     <header>
       <div class="brand">
         <img
-          src="https://telegra.ph/file/43af672249c94053356c7.jpg"
+          src="https://telegra.ph/file/2e39631d147d13883c88c.jpg"
           alt="logo"
         />
         <a href="https://t.me/woodcraft5">
-          <h2 class="name">Bittorrent Selection</h2>
+          <h2 class="name">Bittorrent Selection-WOODcraft</h2>
         </a>
       </div>
       <div class="social">
