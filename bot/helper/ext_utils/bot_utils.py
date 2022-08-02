@@ -210,7 +210,7 @@ def get_readable_message():
                 msg += f"\n{get_progress_bar_string(download)}\n<b>★Progress ●</b> {download.progress()}"
                 if download.status() in [MirrorStatus.STATUS_DOWNLOADING,
                                          MirrorStatus.STATUS_WAITING,
-                                         MirrorStatus.STATUS_PAUSE]:
+                                         MirrorStatus.STATUS_PAUSED]:
                     msg += f"\n<b>★Downloaded ●</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
                 elif download.status() == MirrorStatus.STATUS_UPLOADING:
                     msg += f"\n<b>★Uploaded ●</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
